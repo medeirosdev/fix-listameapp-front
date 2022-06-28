@@ -9,7 +9,10 @@ export const HomeScreen: FC = () => {
 
   return (
     <Container>
-      <Text>Home Screen</Text>
+      <Text>Home</Text>
+      <TestView>
+        <Text>teste</Text>
+      </TestView>
       <Button
         title="Go to Schedules"
         onPress={() => navigation.navigate('Schedules')}
@@ -22,4 +25,16 @@ const Container = styled(View)`
   flex: 1;
   align-items: center;
   justify-content: center;
+`;
+
+const TestView = styled(View).attrs(({ theme }) => ({
+  shadowColor: theme.colors.neutral.black,
+  elevation: theme.elevations.dp12,
+  ...theme.shadows.dp12,
+}))`
+  padding: 8px;
+  margin: 48px;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 999px;
 `;
