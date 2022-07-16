@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { FC } from 'react';
 import { PrivateParamList } from '~/app/navigations/private/types';
 import { HomeScreen } from '~/modules/home/screens/HomeScreen';
+import { SplashScreen } from '~/modules/auth/screens/SplashScreen';
 import { SchedulesScreen } from '~/modules/schedule/screens/SchedulesScreen';
 
 const Stack = createNativeStackNavigator<PrivateParamList>();

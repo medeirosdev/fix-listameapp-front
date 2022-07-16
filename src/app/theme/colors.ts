@@ -12,11 +12,12 @@ interface IDefaultColorMap {
 }
 
 type GradientColor = {
-  start: string;
-  end: string;
+  stops: string[];
+  angle?: number;
 };
 
 export interface IThemeColors {
+  brand: GradientColor;
   neutral: {
     black: string;
     blackAlpha: string;
@@ -45,7 +46,10 @@ export interface IThemeColors {
   };
 }
 
-export const colors: IThemeColors = {
+const colors: IThemeColors = {
+  brand: {
+    stops: ['#000', '#FFF'],
+  },
   neutral: {
     black: '#000000',
     blackAlpha: '#0000001f',
@@ -135,16 +139,21 @@ export const colors: IThemeColors = {
   },
   gradient: {
     primary: {
-      start: '#AF96F4',
-      end: '#4618C9',
+      stops: ['#AF96F4', '#4618C9'],
+      angle: 139.44,
     },
     blue: {
-      start: '#64B5F6',
-      end: '#0D47A1',
+      stops: ['#64B5F6', '#0D47A1'],
+      angle: 139.44,
     },
     inhibitor: {
-      start: '#FFFFFF',
-      end: '',
+      stops: ['#FFFFFF', 'transparent'],
+      angle: 180,
     },
   },
 };
+
+const brand = colors.gradient.blue;
+colors.brand = brand;
+
+export { colors };
