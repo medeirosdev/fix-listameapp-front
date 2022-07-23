@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import type { PrivateNavigationParams } from '~/app/navigations/private/types';
 import { Button, Text, View } from 'react-native';
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 
 export const SchedulesScreen: FC = () => {
   const navigation = useNavigation<PrivateNavigationParams>();

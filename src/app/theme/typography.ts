@@ -2,12 +2,14 @@ export interface IThemeTypography {
   regular: string;
   bold: string;
   medium: string;
-  semiBold: string;
+  semibold: string;
 }
+
+export type ThemeTypographyKeys = keyof IThemeTypography;
 
 export const typography: IThemeTypography = {
   regular: 'Roboto-Regular',
   bold: 'Roboto-Bold',
   medium: 'Roboto-Medium',
-  semiBold: 'Roboto-Medium',
+  semibold: 'Roboto-Medium',
 };

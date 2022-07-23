@@ -16,8 +16,7 @@ type GradientColor = {
   angle?: number;
 };
 
-export interface IThemeColors {
-  brand: GradientColor;
+type DefaultColors = {
   neutral: {
     black: string;
     blackAlpha: string;
@@ -44,12 +43,16 @@ export interface IThemeColors {
     blue: GradientColor;
     inhibitor: GradientColor;
   };
+};
+
+export interface IThemeColors extends DefaultColors {
+  brand: string;
+  error: string;
 }
 
-const colors: IThemeColors = {
-  brand: {
-    stops: ['#000', '#FFF'],
-  },
+export type ThemeColorsKeys = keyof IThemeColors;
+
+const defaultColors: DefaultColors = {
   neutral: {
     black: '#000000',
     blackAlpha: '#0000001f',
@@ -153,7 +156,8 @@ const colors: IThemeColors = {
   },
 };
 
-const brand = colors.gradient.blue;
-colors.brand = brand;
-
-export { colors };
+export const colors: IThemeColors = {
+  ...defaultColors,
+  error: defaultColors.triadic[600],
+  brand: defaultColors.primary.blue[700],
+};

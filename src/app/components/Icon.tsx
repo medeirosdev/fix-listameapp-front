@@ -6,7 +6,7 @@ import config from '../assets/icons/listame-icons.json';
 
 const CustomIcon = createIconSetFromFontello(config);
 
-type IconProps = ComponentProps<typeof CustomIcon>;
+export type IconProps = ComponentProps<typeof CustomIcon>;
 
 export const Icon: FC<IconProps> = React.memo((props) => {
   const { size, ...rest } = props;

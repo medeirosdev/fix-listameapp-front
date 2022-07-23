@@ -1,21 +1,21 @@
 export interface IThemeRadii {
-  xxs: string;
-  xs: string;
-  sm: string;
-  md: string;
-  lg: string;
-  xl: string;
-  xxl: string;
-  full: string;
+  xxs: number;
+  xs: number;
+  sm: number;
+  md: number;
+  lg: number;
+  xl: number;
+  xxl: number;
+  full: number;
 }
 
 export const radii: IThemeRadii = {
-  xxs: '4px',
-  xs: '8px',
-  sm: '12px',
-  md: '16px',
-  lg: '18px',
-  xl: '20px',
-  xxl: '24px',
-  full: '50%',
+  xxs: 4,
+  xs: 8,
+  sm: 12,
+  md: 16,
+  lg: 18,
+  xl: 20,
+  xxl: 24,
+  full: 50,
 };

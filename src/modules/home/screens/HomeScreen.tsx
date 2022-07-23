@@ -1,40 +1,23 @@
 import React, { FC } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import type { PrivateNavigationParams } from '~/app/navigations/private/types';
-import { Button, Text, View } from 'react-native';
-import styled from 'styled-components';
+import { View } from 'react-native';
+import styled from 'styled-components/native';
+import { TextAlert } from '~/app/components/TextAlert';
+import { useAppSelector } from '~/app/hooks/useAppSelector';
+import { currentUserSelector } from '~/modules/auth/state/selectors/userSelectors';
 
 export const HomeScreen: FC = () => {
-  const navigation = useNavigation<PrivateNavigationParams>();
+  const user = useAppSelector(currentUserSelector);
 
   return (
     <Container>
-      <Text>Home</Text>
-      <TestView>
-        <Text>teste</Text>
-      </TestView>
-      <Button
-        title="Go to Schedules"
-        onPress={() => navigation.navigate('Schedules')}
-      />
+      <TextAlert type="success" message={user?.name || ''} />
     </Container>
   );
 };
 
 const Container = styled(View)`
   flex: 1;
+  margin: 0px 20px;
   align-items: center;
   justify-content: center;
-`;
-
-const TestView = styled(View).attrs(({ theme }) => ({
-  shadowColor: theme.colors.neutral.black,
-  elevation: theme.elevations.dp12,
-  ...theme.shadows.dp12,
-}))`
-  padding: 8px;
-  margin: 48px;
-  z-index: 1;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 999px;
 `;

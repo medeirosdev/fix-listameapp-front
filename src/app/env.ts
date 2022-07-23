@@ -4,7 +4,7 @@ export const env = {
   CURRENT_ENVIRONMENT: getEnv('CURRENT_ENVIRONMENT') as
     | 'production'
     | 'development',
-  BASE_URL: getEnv('BASE_URL'),
+  BASE_API_URL: getEnv('BASE_API_URL'),
 };
 
 function getEnv(name: string, isRequired = true) {

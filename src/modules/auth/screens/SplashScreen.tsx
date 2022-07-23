@@ -1,17 +1,44 @@
 import React, { FC, memo } from 'react';
+import { getVersion } from 'react-native-device-info';
 import styled from 'styled-components/native';
-import LinearGradient from 'react-native-linear-gradient';
+import logo from '~/app/assets/logo/bootsplash_logo.png';
+import { Typography } from '~/app/components/Typography';
 
 export const SplashScreen: FC = memo(() => {
-  return <LinearGradientContainer />;
+  return (
+    <ContainerBackground>
+      <ContainerData>
+        <Logo source={logo} />
+        <SplashSpinner />
+        {Boolean(getVersion()) && (
+          <Version>Versão {getVersion().padEnd(5, '.0')}</Version>
+        )}
+      </ContainerData>
+    </ContainerBackground>
+  );
 });
 
-const LinearGradientContainer = styled(LinearGradient).attrs(({ theme }) => ({
-  colors: theme.colors.brand.stops,
-  useAngle: true,
-  angle: theme.colors.brand.angle || 0,
-}))`
+const ContainerBackground = styled.View`
+  background-color: ${({ theme: { colors } }) => colors.brand};
   flex: 1;
-  align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
 `;
+
+const ContainerData = styled.View`
+  align-items: center;
+  justify-content: space-between;
+  height: 50%;
+`;
+
+const SplashSpinner = styled.ActivityIndicator.attrs(({ theme }) => ({
+  size: 20,
+  color: theme.colors.neutral.white,
+}))``;
+
+const Version = styled(Typography).attrs(({ theme: { colors } }) => ({
+  color: colors.neutral.white,
+}))`
+  bottom: 60px;
+`;
+
+const Logo = styled.Image``;
