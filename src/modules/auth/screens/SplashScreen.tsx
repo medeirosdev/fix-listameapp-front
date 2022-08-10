@@ -36,6 +36,8 @@ const SplashSpinner = styled.ActivityIndicator.attrs(({ theme }) => ({
 }))``;
 
 const Version = styled(Typography).attrs(({ theme: { colors } }) => ({
+  fontGroup: 'caption',
+  fontType: 'caption',
   color: colors.neutral.white,
 }))`
   bottom: 60px;

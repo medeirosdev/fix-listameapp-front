@@ -3,4 +3,5 @@ export type ButtonVariants =
   | 'outlined'
   | 'text'
   | 'whiteFilled'
-  | 'whiteOutlined';
+  | 'whiteOutlined'
+  | 'social';

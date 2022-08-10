@@ -3,7 +3,6 @@ import { authStatusSelector } from '~/modules/auth/state/selectors/authSelectors
 
 export const useAuthStatus = () => {
   const authStatus = useAppSelector(authStatusSelector);
-  console.log(authStatus);
 
   const isGuest = authStatus === 'GUEST';
   const isAuthenticated = authStatus === 'SESSION_AUTHENTICATED';

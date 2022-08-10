@@ -1,4 +1,5 @@
 import 'styled-components';
+import { IThemeLineHeights } from '~/app/theme/lineHeights';
 
 import { IThemeColors } from './colors';
 import { IThemeElevations } from './elevations';
@@ -15,5 +16,6 @@ declare module 'styled-components' {
     elevations: IThemeElevations;
     shadows: IThemeShadows;
     radii: IThemeRadii;
+    lineHeights: IThemeLineHeights;
   }
 }

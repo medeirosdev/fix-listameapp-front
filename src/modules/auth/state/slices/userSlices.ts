@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SerializedApiError } from '~/app/utils/http/interceptors/createSerializedApiErrorInterceptor';
-import { loadUser } from '~/modules/auth/state/thunks/userThunks';
+import { loadUserProfilesThunk } from '~/modules/auth/state/thunks/userThunks';
 import { IUser } from '~/modules/auth/types/user';
 
 export type UserStatus =
@@ -18,6 +18,7 @@ export interface UserSliceState {
 const initialState = {
   status: 'NO_USER',
   user: null,
+  error: undefined,
 } as UserSliceState;
 
 const userSlice = createSlice({
@@ -37,19 +38,19 @@ const userSlice = createSlice({
   },
 
   extraReducers(builder) {
-    builder.addCase(loadUser.pending, (state) => {
+    builder.addCase(loadUserProfilesThunk.pending, (state) => {
       state.status = 'USER_PENDING';
       state.error = undefined;
       state.user = null;
     });
 
-    builder.addCase(loadUser.fulfilled, (state, { payload }) => {
+    builder.addCase(loadUserProfilesThunk.fulfilled, (state, { payload }) => {
       state.status = 'USER_SUCCESS';
       state.error = undefined;
-      state.user = payload;
+      state.user = payload.user;
     });
 
-    builder.addCase(loadUser.rejected, (state, { payload }) => {
+    builder.addCase(loadUserProfilesThunk.rejected, (state, { payload }) => {
       state.status = 'USER_ERROR';
       state.error = payload as SerializedApiError;
       state.user = null;

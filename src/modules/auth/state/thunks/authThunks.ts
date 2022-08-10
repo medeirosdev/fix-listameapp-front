@@ -1,21 +1,24 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { sessionApi } from '~/modules/auth/services/api/sessionApi';
 
-import { login } from '~/modules/auth/services/api/session';
-import { setStorageItem } from '~/modules/auth/services/storage/storagePersist';
+import {
+  deleteTokenFromSafeStorage,
+  getTokenFromSafeStorage,
+  setTokenInSafeStorage,
+} from '~/modules/auth/services/storage/safeStorage';
+
 import { SessionStatus } from '~/modules/auth/state/slices/authSlices';
 import { userActions } from '~/modules/auth/state/slices/userSlices';
-import { loadUser } from '~/modules/auth/state/thunks/userThunks';
 import { ILoginRequest } from '~/modules/auth/types/api/session';
-import { getTokenFromStorage } from '~/modules/auth/utils/getAuthFromStorage';
 
-export const createSession = createAsyncThunk(
-  'auth/createSession',
+export const createSessionThunk = createAsyncThunk(
+  'auth/createSessionThunk',
   async (credentials: ILoginRequest, { dispatch, rejectWithValue }) => {
     try {
-      const data = await login(credentials);
+      const data = await sessionApi.login(credentials);
       const { token, user } = data;
       await dispatch(userActions.setUser(user));
-      await setStorageItem({ key: 'auth', value: token, safe: true });
+      await setTokenInSafeStorage(token);
 
       return {
         token,
@@ -26,13 +29,58 @@ export const createSession = createAsyncThunk(
   },
 );
 
-export const restoreSession = createAsyncThunk(
-  'auth/restoreSession',
-  async (_, { dispatch }) => {
-    const token = await getTokenFromStorage();
-    await dispatch(loadUser());
+export const createGoogleSessionThunk = createAsyncThunk(
+  'auth/createGoogleSessionThunk',
+  async (googleAccessToken: string, { dispatch, rejectWithValue }) => {
+    try {
+      const data = await sessionApi.loginWithGoogle(googleAccessToken);
+      const { token, user } = data;
+      await dispatch(userActions.setUser(user));
+      await setTokenInSafeStorage(token);
 
-    const status: SessionStatus = token ? 'SESSION_AUTHENTICATED' : 'GUEST';
+      return {
+        token,
+      };
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+export const createFacebookSessionThunk = createAsyncThunk(
+  'auth/createFacebookSessionThunk',
+  async (facebookAccessToken: string, { dispatch, rejectWithValue }) => {
+    try {
+      const data = await sessionApi.loginWithFacebook(facebookAccessToken);
+      const { token, user } = data;
+      await dispatch(userActions.setUser(user));
+      await setTokenInSafeStorage(token);
+
+      return {
+        token,
+      };
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+export const restoreSessionThunk = createAsyncThunk(
+  'auth/restoreSessionThunk',
+  async (_, { rejectWithValue }) => {
+    const token = await getTokenFromSafeStorage();
+
+    let status: SessionStatus = 'GUEST';
+
+    if (!token) return rejectWithValue('Token not provided');
+
+    const valid = await sessionApi.checkTokenValid(token);
+    if (!valid) {
+      await deleteTokenFromSafeStorage();
+      return rejectWithValue('Token invalid');
+    }
+
+    status = 'SESSION_AUTHENTICATED';
 
     return {
       token,

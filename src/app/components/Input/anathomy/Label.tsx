@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { InputVariants } from '~/app/components/Input/types';
+import { Typography } from '~/app/components/Typography';
 
 interface LabelProps {
   variant: InputVariants;
@@ -7,7 +8,9 @@ interface LabelProps {
   hasError?: boolean;
 }
 
-export const Label = styled.Text<LabelProps>`
+export const Label = styled(Typography).attrs({
+  fontGroup: 'captionMedium',
+})<LabelProps>`
   position: absolute;
   margin: 6px 16px;
   top: 0px;

@@ -12,6 +12,8 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		19948F66914789CF5CDCC914 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5B0F6E294B9A4A6660995A /* ExpoModulesProvider.swift */; };
+		1BA5A30E936C52C3CF86966B /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81568EA7CC792F813E6E7326 /* ExpoModulesProvider.swift */; };
 		430C0CA328680C690093302D /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 430C0C9F28680C690093302D /* Roboto-Medium.ttf */; };
 		430C0CA428680C690093302D /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 430C0CA028680C690093302D /* Roboto-Regular.ttf */; };
 		430C0CA528680C690093302D /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 430C0CA128680C690093302D /* Roboto-Bold.ttf */; };
@@ -48,8 +50,10 @@
 		430C0CA228680C690093302D /* listame-icons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "listame-icons.ttf"; sourceTree = "<group>"; };
 		433CA55028826C17004E4149 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = ListaMe/BootSplash.storyboard; sourceTree = "<group>"; };
 		5848F95FDD55F534311BFD9F /* Pods-ListaMe-ListaMeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ListaMe-ListaMeTests.release.xcconfig"; path = "Target Support Files/Pods-ListaMe-ListaMeTests/Pods-ListaMe-ListaMeTests.release.xcconfig"; sourceTree = "<group>"; };
+		81568EA7CC792F813E6E7326 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-ListaMe/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ListaMe/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8942688F044291024E92DA85 /* libPods-ListaMe.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ListaMe.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C5B0F6E294B9A4A6660995A /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-ListaMe-ListaMeTests/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		ACFF87644F1305144C416520 /* Pods-ListaMe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ListaMe.release.xcconfig"; path = "Target Support Files/Pods-ListaMe/Pods-ListaMe.release.xcconfig"; sourceTree = "<group>"; };
 		B0B9A9FD857FA78E797868D8 /* Pods-ListaMe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ListaMe.debug.xcconfig"; path = "Target Support Files/Pods-ListaMe/Pods-ListaMe.debug.xcconfig"; sourceTree = "<group>"; };
 		D54EDD18C571305821CB7BE7 /* libPods-ListaMe-ListaMeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ListaMe-ListaMeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,6 +112,23 @@
 			name = ListaMe;
 			sourceTree = "<group>";
 		};
+		17E70006F260B5721B3B8B42 /* ListaMe */ = {
+			isa = PBXGroup;
+			children = (
+				81568EA7CC792F813E6E7326 /* ExpoModulesProvider.swift */,
+			);
+			name = ListaMe;
+			sourceTree = "<group>";
+		};
+		18A37027F1F2471F98716DC2 /* ExpoModulesProviders */ = {
+			isa = PBXGroup;
+			children = (
+				17E70006F260B5721B3B8B42 /* ListaMe */,
+				4BEA4824B39A3BD5F25614B5 /* ListaMeTests */,
+			);
+			name = ExpoModulesProviders;
+			sourceTree = "<group>";
+		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +150,14 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		4BEA4824B39A3BD5F25614B5 /* ListaMeTests */ = {
+			isa = PBXGroup;
+			children = (
+				9C5B0F6E294B9A4A6660995A /* ExpoModulesProvider.swift */,
+			);
+			name = ListaMeTests;
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -145,6 +174,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				18A37027F1F2471F98716DC2 /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -433,6 +463,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				00E356F31AD99517003FC87E /* ListaMeTests.m in Sources */,
+				19948F66914789CF5CDCC914 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,6 +473,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				1BA5A30E936C52C3CF86966B /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -478,6 +510,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ListaMe.app/ListaMe";
@@ -503,6 +536,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ListaMe.app/ListaMe";
@@ -528,6 +562,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ListaMe;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -554,6 +589,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ListaMe;
 				SWIFT_VERSION = 5.0;

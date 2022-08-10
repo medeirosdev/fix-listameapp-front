@@ -3,6 +3,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { PersistConfig, persistReducer, persistStore } from 'redux-persist';
 import { rootReducer } from '~/app/services/store/rootReducer';
 import logger from 'redux-logger';
+import { env } from '~/app/env';
 
 export function createReduxStore() {
   const persistConfig: PersistConfig<RootState> = {
@@ -17,13 +18,15 @@ export function createReduxStore() {
     rootReducer,
   );
 
+  const extraMiddlewares = env.REDUX_LOGGER_ENABLED ? [logger] : [];
+
   return configureStore<RootState>({
     reducer: persistedReducer as any,
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         immutableCheck: false,
         serializableCheck: false,
-      }).concat(logger) as never,
+      }).concat(extraMiddlewares) as never,
   });
 }
 

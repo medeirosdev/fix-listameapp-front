@@ -5,8 +5,6 @@ export interface ICreateUserRequest {
   email: string;
   login: string;
   password: string;
-  status: string;
-  type: string;
 }
 
 export interface ICreateUserResponse extends IUser {}

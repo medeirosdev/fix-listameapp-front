@@ -1,12 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { getUserProfiles } from '~/modules/auth/services/api/profiles';
+import { profilesApi } from '~/modules/auth/services/api/profilesApi';
 
-export const loadUser = createAsyncThunk(
-  'user/loadUser',
+export const loadUserProfilesThunk = createAsyncThunk(
+  'user/loadUserProfilesThunk',
   async (_, { rejectWithValue }) => {
     try {
-      const user = await getUserProfiles();
-      return user;
+      const user = await profilesApi.getUserProfiles();
+      return { user };
     } catch (error) {
       return rejectWithValue(error);
     }

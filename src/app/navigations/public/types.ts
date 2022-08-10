@@ -4,7 +4,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 export type PublicParamList = {
   Login: undefined;
   ForgotPassword: undefined;
-  SignUp: undefined;
+  SignUpStep1: undefined;
+  SignUpStep2: undefined;
 };
 
 export type PublicScreensNames = keyof PublicParamList;

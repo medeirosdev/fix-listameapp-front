@@ -49,9 +49,7 @@ export const TextAlert: FC<ITextAlertProps> = (props) => {
 
   return (
     <TextAlertContainer bg={styles.bgColor}>
-      <Typography family="medium" color={styles.textColor}>
-        {message}
-      </Typography>
+      <Typography color={styles.textColor}>{message}</Typography>
       <Icon name={styles.iconName} size={20} color={styles.iconColor} />
     </TextAlertContainer>
   );
@@ -65,5 +63,5 @@ const TextAlertContainer = styled.View<{ bg: string }>`
   border-radius: ${({ theme: { radii } }) => radii.xs}px;
   justify-content: space-between;
   align-items: center;
-  max-height: 40px;
+  max-height: 44px;
 `;

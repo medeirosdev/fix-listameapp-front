@@ -3,8 +3,8 @@ import { RFValue } from 'react-native-responsive-fontsize';
 export interface IThemeFontSizes {
   button: number;
   caption: number;
+  body: number;
   bodySmall: number;
-  bodyMedium: number;
   bodyLarge: number;
   subtitle: number;
   h1: number;
@@ -20,8 +20,8 @@ export type ThemeFontSizesKeys = keyof IThemeFontSizes;
 export const fontSizes: IThemeFontSizes = {
   button: RFValue(16),
   caption: RFValue(12),
+  body: RFValue(16),
   bodySmall: RFValue(14),
-  bodyMedium: RFValue(16),
   bodyLarge: RFValue(18),
   subtitle: RFValue(16),
   h1: RFValue(56),

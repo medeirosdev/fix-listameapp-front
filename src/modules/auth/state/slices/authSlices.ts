@@ -1,8 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SerializedApiError } from '~/app/utils/http/interceptors/createSerializedApiErrorInterceptor';
 import {
-  createSession,
-  restoreSession,
+  createFacebookSessionThunk,
+  createGoogleSessionThunk,
+  createSessionThunk,
+  restoreSessionThunk,
 } from '~/modules/auth/state/thunks/authThunks';
 
 export type SessionStatus =
@@ -29,38 +31,92 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    reset: (state) => {
+    setAuthStatus: (state, action: PayloadAction<AuthSliceState['status']>) => {
+      state.status = action.payload;
+    },
+    setToken: (state, action: PayloadAction<AuthSliceState['token']>) => {
+      state.token = action.payload;
+    },
+    resetWithNewStatus: (
+      state,
+      action: PayloadAction<AuthSliceState['status']>,
+    ) => {
       state.token = initialState.token;
       state.error = initialState.error;
-      state.status = initialState.status;
+      state.status = action.payload || initialState.status;
     },
   },
 
   extraReducers(builder) {
-    builder.addCase(createSession.pending, (state) => {
+    builder.addCase(createSessionThunk.pending, (state) => {
       state.status = 'SESSION_PENDING';
       state.error = undefined;
       state.token = '';
     });
 
-    builder.addCase(createSession.fulfilled, (state, { payload }) => {
+    builder.addCase(createSessionThunk.fulfilled, (state, { payload }) => {
       state.status = 'SESSION_AUTHENTICATED';
       state.error = undefined;
       state.token = payload?.token;
     });
 
-    builder.addCase(createSession.rejected, (state, { payload }) => {
+    builder.addCase(createSessionThunk.rejected, (state, { payload }) => {
       state.status = 'SESSION_ERROR';
       state.token = '';
       state.error = payload as SerializedApiError;
     });
 
-    builder.addCase(restoreSession.fulfilled, (state, { payload }) => {
+    builder.addCase(createGoogleSessionThunk.pending, (state) => {
+      state.status = 'SESSION_PENDING';
+      state.error = undefined;
+      state.token = '';
+    });
+
+    builder.addCase(
+      createGoogleSessionThunk.fulfilled,
+      (state, { payload }) => {
+        state.status = 'SESSION_AUTHENTICATED';
+        state.error = undefined;
+        state.token = payload?.token;
+      },
+    );
+
+    builder.addCase(createGoogleSessionThunk.rejected, (state, { payload }) => {
+      state.status = 'SESSION_ERROR';
+      state.token = '';
+      state.error = payload as SerializedApiError;
+    });
+
+    builder.addCase(createFacebookSessionThunk.pending, (state) => {
+      state.status = 'SESSION_PENDING';
+      state.error = undefined;
+      state.token = '';
+    });
+
+    builder.addCase(
+      createFacebookSessionThunk.fulfilled,
+      (state, { payload }) => {
+        state.status = 'SESSION_AUTHENTICATED';
+        state.error = undefined;
+        state.token = payload?.token;
+      },
+    );
+
+    builder.addCase(
+      createFacebookSessionThunk.rejected,
+      (state, { payload }) => {
+        state.status = 'SESSION_ERROR';
+        state.token = '';
+        state.error = payload as SerializedApiError;
+      },
+    );
+
+    builder.addCase(restoreSessionThunk.fulfilled, (state, { payload }) => {
       state.status = payload.status as AuthSliceState['status'];
       state.token = payload.token;
     });
 
-    builder.addCase(restoreSession.rejected, (state) => {
+    builder.addCase(restoreSessionThunk.rejected, (state) => {
       state.status = 'GUEST';
       state.token = '';
     });

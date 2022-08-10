@@ -60,7 +60,7 @@ export const Input: FC<IInputProps> = forwardRef((props, ref) => {
           <Anathomy.IconContainer>
             <Anathomy.InputIcon
               variant={variant}
-              name={hasError ? 'error' : String(iconName)}
+              name={String(iconName ?? (hasError ? 'error' : ''))}
               size={20}
               hasError={hasError}
               onPress={onIconPress}
@@ -68,7 +68,10 @@ export const Input: FC<IInputProps> = forwardRef((props, ref) => {
           </Anathomy.IconContainer>
         )}
       </Anathomy.InputContainer>
-      <Anathomy.HelperText hasError={hasError} variant={variant}>
+      <Anathomy.HelperText
+        numberOfLines={1}
+        hasError={hasError}
+        variant={variant}>
         {error ?? helperText}
       </Anathomy.HelperText>
     </Wrapper>

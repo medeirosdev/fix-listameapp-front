@@ -5,6 +5,11 @@ export const env = {
     | 'production'
     | 'development',
   BASE_API_URL: getEnv('BASE_API_URL'),
+  REDUX_LOGGER_ENABLED: getEnv('REDUX_LOGGER_ENABLED') === 'true',
+  GOOGLE_ANDROID_CLIENT_ID: getEnv('GOOGLE_ANDROID_CLIENT_ID'),
+  GOOGLE_IOS_CLIENT_ID: getEnv('GOOGLE_IOS_CLIENT_ID'),
+  GOOGLE_WEB_CLIENT_ID: getEnv('GOOGLE_WEB_CLIENT_ID'),
+  FACEBOOK_APP_ID: getEnv('FACEBOOK_APP_ID'),
 };
 
 function getEnv(name: string, isRequired = true) {

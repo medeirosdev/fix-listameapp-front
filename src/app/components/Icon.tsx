@@ -1,10 +1,10 @@
 import React, { ComponentProps, FC, useEffect } from 'react';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { createIconSetFromFontello } from 'react-native-vector-icons';
+import { createIconSetFromIcoMoon } from 'react-native-vector-icons';
 
 import config from '../assets/icons/listame-icons.json';
 
-const CustomIcon = createIconSetFromFontello(config);
+const CustomIcon = createIconSetFromIcoMoon(config);
 
 export type IconProps = ComponentProps<typeof CustomIcon>;
 
@@ -24,4 +24,4 @@ export const Icon: FC<IconProps> = React.memo((props) => {
   );
 });
 
-const avaliableIcons = config.glyphs.map((glyph) => glyph.css);
+const avaliableIcons = config.icons.map((glyph) => glyph.properties.name);

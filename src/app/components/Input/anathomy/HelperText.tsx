@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { Typography } from '~/app/components/Typography';
 import { InputVariants } from '../types';
 
 interface HelperTextProps {
@@ -6,7 +7,9 @@ interface HelperTextProps {
   hasError?: boolean;
 }
 
-export const HelperText = styled.Text<HelperTextProps>`
+export const HelperText = styled(Typography).attrs({
+  fontGroup: 'captionMedium',
+})<HelperTextProps>`
   color: ${({ theme: { colors }, variant, hasError }) => {
     if (hasError) return colors.error;
     if (variant === 'fullWhite') return colors.neutral.white;

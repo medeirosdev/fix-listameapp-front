@@ -1,6 +1,7 @@
 import { createRef, useMemo, useState } from 'react';
 import { TextInput } from 'react-native';
 import { IFormInputProps } from '~/app/components/Form/types';
+import * as yup from 'yup';
 
 export const useLoginFormInputs = () => {
   const [isShowingPassword, setIsShowingPassword] = useState(true);
@@ -13,7 +14,6 @@ export const useLoginFormInputs = () => {
         required: true,
       },
       textContentType: 'emailAddress',
-      variant: 'fullWhite',
       returnKeyType: 'next',
       autoCapitalize: 'none',
       onSubmitEditing: () => passwordInputRef.current?.focus(),
@@ -32,7 +32,6 @@ export const useLoginFormInputs = () => {
       },
       ref: passwordInputRef,
       textContentType: 'password',
-      variant: 'fullWhite',
       autoCapitalize: 'none',
       returnKeyLabel: 'entrar',
       label: 'Senha',
@@ -44,7 +43,25 @@ export const useLoginFormInputs = () => {
     [isShowingPassword],
   );
 
+  const schema = useMemo(() => {
+    const passwordErrorMessage = 'A senha precisa ter no mínimo 8 caracteres';
+    return yup
+      .object({
+        email: yup
+          .string()
+          .email('Digite um e-mail válido')
+          .required('Campo obrigatório'),
+        password: yup
+          .string()
+          .required('Campo obrigatório')
+          .min(8, passwordErrorMessage)
+          .max(16, passwordErrorMessage),
+      })
+      .required();
+  }, []);
+
   return {
     inputs: [emailInput, passwordInput],
+    schema,
   };
 };

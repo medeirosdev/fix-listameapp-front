@@ -24,6 +24,15 @@ export const getStorageItem = async (
   return await AsyncStorage.getItem(key);
 };
 
+export const removeStorageItem = async (
+  params: Omit<PersistParams, 'value'>,
+): Promise<void> => {
+  const { key: cleanKey, safe } = params;
+  const key = STORAGE_PREFIX.concat(cleanKey);
+  if (safe) return await _removeSafeStorageItem(key);
+  return await AsyncStorage.removeItem(key);
+};
+
 const _setSafeStorageItem = async (
   cleanKey: string,
   value: string,
@@ -37,4 +46,9 @@ const _getSafeStorageItem = async (
 ): Promise<string | null> => {
   const key = STORAGE_PREFIX.concat(cleanKey);
   return await AsyncStorage.getItem(key);
+};
+
+const _removeSafeStorageItem = async (cleanKey: string): Promise<void> => {
+  const key = STORAGE_PREFIX.concat(cleanKey);
+  return await AsyncStorage.removeItem(key);
 };

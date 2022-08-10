@@ -1,10 +1,10 @@
 import { AxiosRequestConfig } from 'axios';
-import { getTokenFromStorage } from '~/modules/auth/utils/getAuthFromStorage';
+import { getTokenFromSafeStorage } from '~/modules/auth/services/storage/safeStorage';
 
 export async function addAuthorizationHeaderInterceptor(
   config: AxiosRequestConfig,
 ) {
-  const token = await getTokenFromStorage();
+  const token = await getTokenFromSafeStorage();
   if (!token) {
     return config;
   }

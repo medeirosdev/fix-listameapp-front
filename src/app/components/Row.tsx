@@ -16,5 +16,4 @@ export const Row = styled(View).attrs((props: IRowProps) => ({
   ...props,
 }))`
   flex-direction: row;
-  width: 100%;
 `;

@@ -5,6 +5,8 @@ interface IBaseLabelProps {
   color: string;
 }
 
-export const BaseLabel = styled(Typography)<IBaseLabelProps>`
+export const BaseLabel = styled(Typography).attrs({
+  fontGroup: 'buttonMedium',
+})<IBaseLabelProps>`
   color: ${(props) => props.color};
 `;
