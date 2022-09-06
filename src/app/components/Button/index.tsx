@@ -16,7 +16,7 @@ export const Button: FC<ButtonProps> = forwardRef((props, ref) => {
     iconSize,
     labelColor,
     fullWidth,
-    iconOrientation,
+    iconOrientation = 'right',
     loadingText,
     borderRadius,
     ...rest
@@ -57,6 +57,13 @@ export const Button: FC<ButtonProps> = forwardRef((props, ref) => {
       borderColor: '',
     });
 
+    variantStyles.set('whiteFilledBordered', {
+      bg: theme.colors.neutral.white,
+      label: labelColor ?? theme.colors.primary.blue[700],
+      borderRadius: `${theme.radii.xxl}px`,
+      borderColor: labelColor ?? theme.colors.primary.blue[700],
+    });
+
     variantStyles.set('whiteOutlined', {
       bg: 'transparent',
       label: labelColor ?? theme.colors.neutral.white,
@@ -74,7 +81,7 @@ export const Button: FC<ButtonProps> = forwardRef((props, ref) => {
     return variantStyles.get(variant) || defaultStyle;
   }, [variant]);
 
-  const hasIcon = !isLoading && icon;
+  const hasIcon = !isLoading && Boolean(icon);
 
   return (
     <Anathomy.ButtonContainer
@@ -88,6 +95,7 @@ export const Button: FC<ButtonProps> = forwardRef((props, ref) => {
       disabled={disabled || isLoading}
       activeOpacity={0.6}
       ref={ref}
+      hasIconAndText={hasIcon && (Boolean(loadingText) || Boolean(children))}
       {...rest}>
       {isLoading ? (
         <Row>
@@ -108,6 +116,7 @@ export const Button: FC<ButtonProps> = forwardRef((props, ref) => {
               icon
             ) : (
               <Anathomy.BaseIcon
+                orientation={iconOrientation}
                 name={icon as string}
                 size={iconSize}
                 color={styles.label}
@@ -118,10 +127,3 @@ export const Button: FC<ButtonProps> = forwardRef((props, ref) => {
     </Anathomy.ButtonContainer>
   );
 });
-
-Button.defaultProps = {
-  variant: 'primary',
-  iconSize: 20,
-  fullWidth: false,
-  iconOrientation: 'right',
-};

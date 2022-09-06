@@ -9,14 +9,15 @@ export interface IButtonContainerProps {
   bg?: string;
   borderColor?: string;
   borderRadius?: string;
+  hasIconAndText?: boolean;
 }
 
 export const ButtonContainer = styled.TouchableOpacity<IButtonContainerProps>`
   flex-grow: ${({ fullWidth }) => (fullWidth ? 1 : 0)};
   flex-direction: ${({ iconOrientation }) =>
     iconOrientation === 'right' ? 'row' : 'row-reverse'};
-  justify-content: center;
-  align-content: center;
+  justify-content: ${({ hasIconAndText }) =>
+    hasIconAndText ? 'space-between' : 'center'};
   align-items: center;
   height: ${RFValue(48)}px;
   padding: ${RFValue(12)}px ${RFValue(16)}px;

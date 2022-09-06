@@ -6,6 +6,7 @@ interface IRowProps extends ViewStyle {
   mt?: ViewStyle['marginTop'];
   mx?: ViewStyle['marginHorizontal'];
   my?: ViewStyle['marginVertical'];
+  dir?: ViewStyle['flexDirection'];
 }
 
 export const Row = styled(View).attrs((props: IRowProps) => ({
@@ -15,5 +16,5 @@ export const Row = styled(View).attrs((props: IRowProps) => ({
   marginVertical: props.my,
   ...props,
 }))`
-  flex-direction: row;
+  flex-direction: ${({ dir }) => dir || 'row'};
 `;

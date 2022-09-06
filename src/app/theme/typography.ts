@@ -34,7 +34,10 @@ export type ThemeTypographyBody =
   | 'bodyLargeRegular'
   | 'bodyLargeMedium';
 
-export type ThemeTypographyCaption = 'captionRegular' | 'captionMedium';
+export type ThemeTypographyCaption =
+  | 'captionRegular'
+  | 'captionMedium'
+  | 'captionBold';
 export type ThemeTypographyButton = 'buttonMedium';
 
 export type ThemeTypographyGroups =

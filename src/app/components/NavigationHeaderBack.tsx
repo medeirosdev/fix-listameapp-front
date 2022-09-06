@@ -6,7 +6,6 @@ import { Icon } from '~/app/components/Icon';
 
 export const NavigationHeaderBack: FC<HeaderBackButtonProps> = (props) => {
   const theme = useTheme();
-  console.log(props.canGoBack);
   const navigator = useNavigation();
 
   const goBack = () => props.canGoBack && navigator.goBack();

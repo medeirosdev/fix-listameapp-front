@@ -62,6 +62,7 @@ export const shadows: IThemeShadows = {
     },
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
+    shadowColor: 'rgba(0, 0, 0, 0.4)',
   },
   dp06: {
     shadowOffset: {

@@ -9,6 +9,8 @@ export type ITextAlertTypes = 'info' | 'success' | 'warning' | 'error';
 export interface ITextAlertProps {
   message: string;
   type: ITextAlertTypes;
+  icon?: string;
+  onPress?: () => void;
 }
 
 export const TextAlert: FC<ITextAlertProps> = (props) => {
@@ -48,14 +50,18 @@ export const TextAlert: FC<ITextAlertProps> = (props) => {
   }, [type]);
 
   return (
-    <TextAlertContainer bg={styles.bgColor}>
+    <TextAlertContainer bg={styles.bgColor} onPress={props?.onPress}>
       <Typography color={styles.textColor}>{message}</Typography>
-      <Icon name={styles.iconName} size={20} color={styles.iconColor} />
+      <Icon
+        name={props.icon ?? styles.iconName}
+        size={20}
+        color={styles.iconColor}
+      />
     </TextAlertContainer>
   );
 };
 
-const TextAlertContainer = styled.View<{ bg: string }>`
+const TextAlertContainer = styled.TouchableOpacity<{ bg: string }>`
   width: 100%;
   flex-direction: row;
   background-color: ${(props) => props.bg};

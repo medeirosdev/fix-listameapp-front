@@ -75,6 +75,7 @@ export const restoreSessionThunk = createAsyncThunk(
     if (!token) return rejectWithValue('Token not provided');
 
     const valid = await sessionApi.checkTokenValid(token);
+    console.info('===== VALID: ', valid);
     if (!valid) {
       await deleteTokenFromSafeStorage();
       return rejectWithValue('Token invalid');

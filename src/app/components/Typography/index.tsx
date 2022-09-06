@@ -126,6 +126,12 @@ export const Typography: FC<TypographyProps> = ({
       lineHeight: theme.lineHeights.caption,
     });
 
+    stylesByGroup.set('captionBold', {
+      fontSize: theme.fontSizes.caption,
+      fontFamily: theme.typography.bold,
+      lineHeight: theme.lineHeights.caption,
+    });
+
     stylesByGroup.set('buttonMedium', {
       fontSize: theme.fontSizes.button,
       fontFamily: theme.typography.medium,
