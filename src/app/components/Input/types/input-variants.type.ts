@@ -1,1 +1,1 @@
-export type InputVariants = 'default' | 'fullWhite';
+export type InputVariants = 'default' | 'fullWhite' | 'rounded';

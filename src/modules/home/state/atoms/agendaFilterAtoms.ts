@@ -1,4 +1,5 @@
 import { atom } from 'jotai';
+import { atomWithReset } from 'jotai/utils';
 import { SelectDateBottomShetTypes } from '~/modules/home/components/SelectDateBottomSheet';
 import { IAgenda } from '~/modules/schedule/types/agendas';
 
@@ -15,12 +16,12 @@ export type AgendaFilterDateRange = {
 
 export type AgendaFilterChecked = Record<IAgenda['id'], boolean> | null;
 
-export const isFilteringAtom = atom(false);
-export const agendaDatesFilterAtom = atom<AgendaFilterDateRange>(null);
+export const isFilteringAtom = atomWithReset(false);
+export const agendaDatesFilterAtom = atomWithReset<AgendaFilterDateRange>(null);
 export const bottomSheetOpenTypeAtom = atom<SelectDateBottomShetTypes | null>(
   null,
 );
-export const agendaCheckedFilterAtom = atom<AgendaFilterChecked>(null);
+export const agendaCheckedFilterAtom = atomWithReset<AgendaFilterChecked>(null);
 export const agendaSelectedFiltersCountAtom = atom((get) => {
   let count = 0;
   const checkedAgendas = get(agendaCheckedFilterAtom);

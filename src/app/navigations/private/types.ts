@@ -3,11 +3,12 @@ import {
   NativeStackNavigationProp,
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
+import { PrivateBridgeParamList } from '~/app/navigations/private/PrivateNavigatorBridge/types';
 
-export type PrivateParamList = {
+export type PrivateParamList = PrivateBridgeParamList & {
   Home: undefined;
   Schedules: undefined;
-  Search: undefined;
+  SchedulesSearch: undefined;
   Filters: undefined;
 };
 

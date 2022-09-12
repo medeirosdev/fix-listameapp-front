@@ -8,26 +8,6 @@ import { useAppDispatch } from '~/app/hooks/useAppDispatch';
 import { restoreSessionThunk } from '~/modules/auth/state/thunks/authThunks';
 import { useAppFocus } from '~/app/hooks/useAppFocus';
 import { SplashScreen } from '~/modules/auth/screens/SplashScreen';
-import { Button, View } from 'react-native';
-
-function HomeScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button
-        onPress={() => navigation.navigate('Notifications')}
-        title="Go to notifications"
-      />
-    </View>
-  );
-}
-
-function NotificationsScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button onPress={() => navigation.goBack()} title="Go back home" />
-    </View>
-  );
-}
 
 export const Navigations: FC = () => {
   const { isAuthenticated, isAuthenticatedRestoring } = useAuthStatus();

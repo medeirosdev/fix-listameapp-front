@@ -1,5 +1,6 @@
 import { api } from '~/app/services/api/api';
 import { AgendaFilterParams } from '~/modules/home/services/api/agendasApi';
+import { IAgenda } from '~/modules/schedule/types/agendas';
 import { ISchedulesListItem } from '~/modules/schedule/types/appointments';
 
 const BASE_URL = '/appointments';
@@ -29,7 +30,15 @@ const filter: AppointmentsApiFilter = async (params) => {
   return data;
 };
 
+const findByAgendaId = async (id: IAgenda['id']) => {
+  const endpoint = BASE_URL.concat(`/${id}`);
+
+  const { data } = await api.get(endpoint);
+  return data;
+};
+
 export const appointmentsApi = {
   list,
   filter,
+  findByAgendaId,
 };

@@ -19,11 +19,17 @@ export const InputContainer = styled(View)<IInputContainerProps>`
   border-style: solid;
   border-color: ${({ theme: { colors } }) => colors.brand};
 
-  ${({ theme: { colors }, variant, isFocused, hasError }) => {
+  ${({ theme: { colors, radii }, variant, isFocused, hasError }) => {
     if (hasError) return { borderColor: colors.error };
     if (variant === 'fullWhite')
       return {
         borderColor: isFocused ? colors.neutral.white : colors.gray[300],
       };
+    if (variant === 'rounded') {
+      return {
+        borderRadius: radii.full,
+        backgroundColor: colors.neutral.white,
+      };
+    }
   }};
 `;

@@ -1,16 +1,27 @@
-import styled from 'styled-components/native';
+import React, { PropsWithChildren, useMemo } from 'react';
+import { StyleSheet, View, ViewStyle } from 'react-native';
+import { useTheme } from 'styled-components/native';
 import { IThemeShadows } from '~/app/theme/shadows';
 
 interface IShadowProps {
   dp: keyof IThemeShadows;
+  style?: ViewStyle;
 }
 
-export const Shadow = styled.View.attrs<IShadowProps>(
-  ({ theme: { shadows, colors }, dp }) => ({
-    ...shadows[dp],
-    backgroundColor: colors.neutral.white,
-  }),
-)<IShadowProps>`
-  elevation: ${({ theme: { elevations }, dp }) => elevations[dp]};
-  border-radius: 8px;
-`;
+export const Shadow = (props: PropsWithChildren<IShadowProps>) => {
+  const { dp = 'dp01', children, style = {} } = props;
+  const theme = useTheme();
+
+  const styles = useMemo(() => {
+    return StyleSheet.create({
+      container: {
+        ...theme.shadows[dp],
+        elevation: theme.elevations[dp],
+        borderRadius: theme.radii.xs,
+        backgroundColor: theme.colors.neutral.white,
+      },
+    });
+  }, [dp]);
+
+  return <View style={[styles.container, style]}>{children}</View>;
+};

@@ -6,19 +6,17 @@ import { Row } from '~/app/components/Row';
 import { Input } from '~/app/components/Input';
 import { useAgendasList } from '~/modules/home/hooks/useAgendasList';
 import { ListEmptyState } from '~/modules/home/components/ListEmptyState';
-import { usePrivateNavigation } from '~/app/navigations/private/hooks/usePrivateNavigator';
 
-export const SchedulesScreen: FC = () => {
+export const SchedulesSearchScreen: FC = () => {
   const [search, setSearch] = useState('');
-  const { agendas, isLoading } = useAgendasList({ isProfile: true, search });
-  const navigation = usePrivateNavigation();
+  const { agendas, isLoading } = useAgendasList({ isProfile: false, search });
 
   return (
-    <SchedulesScreenPageContainer>
+    <SchedulesSearchScreenPageContainer>
       <HeaderRow>
         <Input
           label="Pesquisar"
-          placeholder="Encontre uma agenda que você segue"
+          placeholder="Encontre uma agenda, tarefa ou perfil"
           variant="rounded"
           iconName="search"
           onChangeText={(text) => setSearch(text)}
@@ -26,22 +24,19 @@ export const SchedulesScreen: FC = () => {
       </HeaderRow>
       <LayoutContainer>
         {agendas?.length ? (
-          <AgendaList title="Minhas Agendas" agendas={agendas} />
+          <AgendaList title="Agendas" agendas={agendas} />
         ) : (
           <ListEmptyState
             isLoading={isLoading}
-            message="Você ainda não segue nenhuma agenda"
-            buttonLabel="Buscar Agendas"
-            buttonIcon="search"
-            buttonAction={() => navigation.navigate('SchedulesSearch')}
+            message="Nenhuma agenda encontrada"
           />
         )}
       </LayoutContainer>
-    </SchedulesScreenPageContainer>
+    </SchedulesSearchScreenPageContainer>
   );
 };
 
-export const SchedulesScreenPageContainer = styled.View`
+export const SchedulesSearchScreenPageContainer = styled.View`
   flex: 1;
   background-color: ${({ theme: { colors } }) => colors.neutral.white};
 `;

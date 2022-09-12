@@ -68,12 +68,14 @@ export const Input: FC<IInputProps> = forwardRef((props, ref) => {
           </Anathomy.IconContainer>
         )}
       </Anathomy.InputContainer>
-      <Anathomy.HelperText
-        numberOfLines={1}
-        hasError={hasError}
-        variant={variant}>
-        {error ?? helperText}
-      </Anathomy.HelperText>
+      {Boolean(error ?? helperText) && (
+        <Anathomy.HelperText
+          numberOfLines={1}
+          hasError={hasError}
+          variant={variant}>
+          {error ?? helperText}
+        </Anathomy.HelperText>
+      )}
     </Wrapper>
   );
 });

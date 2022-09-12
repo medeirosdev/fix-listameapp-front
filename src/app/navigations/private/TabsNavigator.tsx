@@ -7,6 +7,7 @@ import { Icon } from '~/app/components/Icon';
 import { GradientContainerView } from '~/app/components/GradientContainerView';
 import { useTheme } from 'styled-components';
 import { useScreenHeaderOptions } from '~/app/navigations/private/hooks/useScreenHeaderOptions';
+import { SchedulesSearchScreen } from '~/modules/schedule/screens/SchedulesSearchScreen';
 
 const Tab = createBottomTabNavigator<PrivateParamList>();
 
@@ -27,6 +28,7 @@ export const TabsNavigator = () => {
           name="Home"
           component={HomeScreen}
           options={{
+            tabBarLabel: 'Início',
             tabBarIcon: ({ color, size }) => (
               <Icon name="home" color={color} size={size} />
             ),
@@ -36,15 +38,17 @@ export const TabsNavigator = () => {
           name="Schedules"
           component={SchedulesScreen}
           options={{
+            tabBarLabel: 'Agendas',
             tabBarIcon: ({ color, size }) => (
               <Icon name="menu_book" color={color} size={size} />
             ),
           }}
         />
         <Tab.Screen
-          name="Search"
-          component={HomeScreen}
+          name="SchedulesSearch"
+          component={SchedulesSearchScreen}
           options={{
+            tabBarLabel: 'Buscar',
             tabBarIcon: ({ color, size }) => (
               <Icon name="search" color={color} size={size} />
             ),

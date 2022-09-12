@@ -1,11 +1,9 @@
-import React, { FC, useEffect, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import {
   ActivityIndicator,
   Alert,
-  FlatList,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
 import styled, { useTheme } from 'styled-components/native';
 import { Button } from '~/app/components/Button';
 import { Icon } from '~/app/components/Icon';
@@ -16,38 +14,46 @@ import { Typography } from '~/app/components/Typography';
 import { usePrivateNavigation } from '~/app/navigations/private/hooks/usePrivateNavigator';
 import { colors } from '~/app/theme/colors';
 import { capitalize } from '~/app/utils/format/capitalize';
-import { Acordion } from '~/modules/home/components/Acordion/Acordion';
 import { FloatingActionButton } from '~/modules/home/components/FloatingActionButton/FloatingActionButton';
 import { FloatingActionButtonItem } from '~/modules/home/components/FloatingActionButton/FloatingActionButtonItem';
 import { ListEmptyState } from '~/modules/home/components/ListEmptyState';
-import { ScheduleList } from '~/modules/home/components/ScheduleList/ScheduleList';
 import { SchedulesCalendar } from '~/modules/home/components/SchedulesCalendar/SchedulesCalendar';
 import { useCalendarSelection } from '~/modules/home/hooks/useCalendarSelection';
 import { useScheduleListFilter } from '~/modules/home/hooks/useScheduleListFilter';
 import { useSchedulesCalendar } from '~/modules/home/hooks/useSchedulesCalendar';
 import { useSchedulesList } from '~/modules/home/hooks/useSchedulesList';
+import { SchedulesListWithAccordion } from '~/modules/schedule/components/SchedulesListWithAccordion/SchedulesListWithAccordion';
 
 export const HomeScreen: FC = () => {
   const theme = useTheme();
   const navigation = usePrivateNavigation();
-  const { isOpen, handleCalendarOpen, selectedMonth, reset } =
-    useSchedulesCalendar();
-  const { schedulesList } = useSchedulesList();
-  const { isFilterLoading, filtersActiveCount, filteredList } =
+  const { isOpen, handleCalendarOpen, selectedMonth } = useSchedulesCalendar();
+  const { schedulesList, isSchedulesLoading } = useSchedulesList();
+  const { isFilterLoading, filtersActiveCount, filteredList, resetFilters } =
     useScheduleListFilter();
-  const { scheduleIndex, scheduleListRef, calendarDates } =
-    useCalendarSelection({
-      list: filteredList ?? schedulesList,
-    });
 
   const hasFiltersActive = useMemo(
     () => Boolean(filtersActiveCount),
     [filtersActiveCount],
   );
 
-  const shouldShowFilterEmptyState = useMemo(
-    () => Boolean(hasFiltersActive && !filteredList),
-    [hasFiltersActive, filteredList],
+  const { scheduleIndex, scheduleListRef, calendarDates } =
+    useCalendarSelection({
+      list:
+        hasFiltersActive && filteredList?.length ? filteredList : schedulesList,
+    });
+
+  const isListEmpty = useMemo(
+    () =>
+      Boolean(
+        (hasFiltersActive && !filteredList?.length) || !schedulesList?.length,
+      ),
+    [hasFiltersActive, filteredList, schedulesList],
+  );
+
+  const isLoading = useMemo(
+    () => isSchedulesLoading || isFilterLoading,
+    [isSchedulesLoading, isFilterLoading],
   );
 
   return (
@@ -101,31 +107,22 @@ export const HomeScreen: FC = () => {
         )}
       </HeaderRow>
       <LayoutContainer>
-        {shouldShowFilterEmptyState ? (
+        {isLoading || isListEmpty ? (
           <ListEmptyState
-            message="Nenhum resultado encontrado."
-            buttonLabel="Limpar filtros"
-            buttonIcon="delete"
+            message={
+              isLoading ? 'Carregando...' : 'Nenhum resultado encontrado.'
+            }
+            buttonLabel={!isLoading && hasFiltersActive ? 'Limpar filtros' : ''}
+            buttonIcon={!isLoading && hasFiltersActive ? 'delete' : ''}
+            buttonAction={
+              !isLoading && hasFiltersActive ? resetFilters : undefined
+            }
           />
         ) : (
-          <FlatList
-            onScrollToIndexFailed={() => {}}
-            initialScrollIndex={scheduleIndex}
+          <SchedulesListWithAccordion
             ref={scheduleListRef}
-            data={hasFiltersActive ? filteredList : schedulesList}
-            keyExtractor={(item) => item.date}
-            renderItem={({ item, index }) => (
-              <AcordionListWrapper key={index}>
-                <Acordion
-                  beginOpenned={scheduleIndex === index}
-                  forceClosing={scheduleIndex !== index}
-                  title={new Date(item.date).toLocaleDateString()}>
-                  <ScrollView>
-                    <ScheduleList appointments={item.appointments} />
-                  </ScrollView>
-                </Acordion>
-              </AcordionListWrapper>
-            )}
+            scheduleIndex={scheduleIndex}
+            data={hasFiltersActive ? filteredList : schedulesList ?? []}
           />
         )}
       </LayoutContainer>
@@ -172,8 +169,4 @@ const FilterIconCountIndicator = styled.View<{ active?: boolean }>`
   height: 24px;
   align-items: center;
   border-radius: ${({ theme: { radii } }) => `${radii.full}px`};
-`;
-
-const AcordionListWrapper = styled.View<{ isLast?: boolean }>`
-  margin-bottom: ${({ isLast }) => (isLast ? '0px' : '16px')};
 `;

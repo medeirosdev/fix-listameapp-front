@@ -5,6 +5,7 @@ import { GradientContainerView } from '~/app/components/GradientContainerView';
 import { DrawerNavigator } from '~/app/navigations/private/DrawerNavigator/DrawerNavigator';
 import { PrivateBridgeParamList } from '~/app/navigations/private/PrivateNavigatorBridge/types';
 import { FiltersScreen } from '~/modules/home/screens/FiltersScreen';
+import { ScheduleDetailsScreen } from '~/modules/schedule/screens/ScheduleDetailsScreen';
 
 const Stack = createNativeStackNavigator<PrivateBridgeParamList>();
 
@@ -30,6 +31,21 @@ export const PrivateNavigatorBridge: FC = () => {
           headerBackTitle: 'Início',
           headerTitleStyle: {
             fontSize: theme.fontSizes.h6,
+            color: theme.colors.neutral.white,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="ScheduleDetails"
+        component={ScheduleDetailsScreen}
+        options={{
+          headerShown: true,
+          headerTintColor: theme.colors.neutral.white,
+          headerBackground: () => <GradientContainerView />,
+          headerTitle: 'Informações da Agenda',
+          headerBackTitle: '',
+          headerTitleStyle: {
+            fontSize: theme.fontSizes.bodyLarge,
             color: theme.colors.neutral.white,
           },
         }}

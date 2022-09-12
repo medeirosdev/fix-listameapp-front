@@ -8,13 +8,16 @@ interface IListEmptyStateProps {
   buttonLabel?: string;
   buttonIcon?: string;
   buttonAction?: () => void;
+  isLoading?: boolean;
 }
 
 export const ListEmptyState: FC<IListEmptyStateProps> = (props) => {
-  const { message, buttonLabel, buttonAction, buttonIcon } = props;
+  const { message, buttonLabel, buttonAction, buttonIcon, isLoading } = props;
   return (
     <EmptyStateContainer>
-      <EmptyStateText fontGroup="bodySmallRegular">{message}</EmptyStateText>
+      <EmptyStateText fontGroup="bodySmallRegular">
+        {isLoading ? 'Carregando... ' : message}
+      </EmptyStateText>
       {Boolean(buttonLabel) && (
         <Button
           variant="text"

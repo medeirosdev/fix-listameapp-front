@@ -25,7 +25,7 @@ export const FiltersScreen: FC = () => {
     setBottomSheetOpenType,
     filterDateRange,
   } = useFilterByDate();
-  const { isLoading, agendas } = useAgendasList();
+  const { isLoading, agendas } = useAgendasList({ isProfile: true });
   const updateCheckedAgendas = useSetAtom(agendaCheckedFilterAtom);
   const setIsFiltering = useSetAtom(isFilteringAtom);
   const filtersActiveCount = useAtomValue(agendaSelectedFiltersCountAtom);
@@ -105,9 +105,11 @@ export const FiltersScreen: FC = () => {
           </Row>
         </Header>
         <LayoutContainer>
-          <FilterTitle>Filtrar por agenda</FilterTitle>
+          <Row mt={16}>
+            <FilterTitle>Filtrar por agenda</FilterTitle>
+          </Row>
 
-          {agendas ? (
+          {agendas?.length ? (
             <ScheduleFilterList
               agendas={agendas}
               onCheckAgenda={onCheckAgenda}

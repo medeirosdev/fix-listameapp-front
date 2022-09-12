@@ -27,6 +27,7 @@ export interface ISchedulesCalendarProps {
 
 export const SchedulesCalendar: FC<ISchedulesCalendarProps> = (props) => {
   const { appointmentsDates, datesRange = [] } = props;
+
   const theme = useTheme();
   const { handleCalendarOpen, selectedDate, setSelectedDate } =
     useSchedulesCalendar();

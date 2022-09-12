@@ -1,33 +1,40 @@
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useAppDispatch } from '~/app/hooks/useAppDispatch';
-import { AgendaFilterParams } from '~/modules/home/services/api/agendasApi';
-import {
-  selectAgendasList,
-  selectAgendasListError,
-  selectAgendasListLoading,
-} from '~/modules/home/state/selectors/agendasSelectors';
-import { loadAgendasListThunk } from '~/modules/home/state/thunks/agendasThunk';
+import { QueryKey, useQuery } from '@tanstack/react-query';
+import { useMemo } from 'react';
+import { agendasApi } from '~/modules/home/services/api/agendasApi';
 
-export const useAgendasList = () => {
-  const dispatch = useAppDispatch();
+export interface IUseAgendasListParams {
+  isProfile?: boolean;
+  search?: string;
+}
 
-  useEffect(() => {
-    fetchAgendas();
-  }, []);
+export const useAgendasList = (params: IUseAgendasListParams = {}) => {
+  const { isProfile = false, search } = params;
+  const {
+    data: listAgendasResponse,
+    isLoading,
+    error,
+  } = useQuery(['listAgendas', isProfile], getAgenda);
 
-  const agendas = useSelector(selectAgendasList);
-  const isLoading = useSelector(selectAgendasListLoading);
-  const error = useSelector(selectAgendasListError);
-
-  async function fetchAgendas(agendasIds?: AgendaFilterParams) {
-    await dispatch(loadAgendasListThunk(agendasIds));
+  async function getAgenda({ queryKey }: { queryKey: QueryKey }) {
+    const [_, isProfile] = queryKey;
+    const agenda = isProfile
+      ? await agendasApi.profileList()
+      : await agendasApi.list();
+    return agenda;
   }
+
+  const agendas = useMemo(() => {
+    if (search)
+      return listAgendasResponse?.filter((agenda) =>
+        agenda.name.toLowerCase().match(new RegExp(search, 'i')),
+      );
+    return listAgendasResponse;
+  }, [search]);
 
   return {
     agendas,
     isLoading,
     error,
-    fetchAgendas,
+    fetchAgendas: () => {},
   };
 };

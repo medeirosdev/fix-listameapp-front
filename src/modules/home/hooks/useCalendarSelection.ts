@@ -45,11 +45,13 @@ export const useCalendarSelection = ({
 
   useEffect(() => {
     if (!isFiltering && isIndexValid(scheduleIndex)) {
-      scheduleListRef.current?.scrollToIndex({
-        index: Number(scheduleIndex),
-        animated: true,
-        viewPosition: 0.3,
-      });
+      try {
+        scheduleListRef.current?.scrollToIndex({
+          index: Number(scheduleIndex),
+          animated: true,
+          viewPosition: 0.3,
+        });
+      } catch (error) {}
     }
   }, [scheduleIndex, isFiltering]);
 
