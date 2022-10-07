@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import React, { forwardRef } from 'react';
 import { FlatList, ScrollView } from 'react-native';
 import styled from 'styled-components/native';
@@ -26,7 +27,7 @@ export const SchedulesListWithAccordion = forwardRef<
           <Acordion
             beginOpenned={scheduleIndex === index}
             forceClosing={scheduleIndex !== index}
-            title={new Date(item.date).toLocaleDateString()}>
+            title={format(new Date(item.date), 'dd/MM/yyyy')}>
             <ScrollView>
               <ScheduleList appointments={item.appointments} />
             </ScrollView>

@@ -1,8 +1,9 @@
 import { QueryKey, useQuery } from '@tanstack/react-query';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { queryClient } from '~/app/services/queryClient';
 import { agendasApi } from '~/modules/home/services/api/agendasApi';
 import { appointmentsApi } from '~/modules/home/services/api/appointmentsApi';
+import { UserAgendaRole } from '~/modules/schedule/types/agendas';
 
 export const useScheduleDetails = (id: string) => {
   const {
@@ -42,11 +43,17 @@ export const useScheduleDetails = (id: string) => {
     };
   }, []);
 
+  const isAgendaOwner = useMemo(
+    () => agenda?.role === UserAgendaRole.OWNER,
+    [id, agenda],
+  );
+
   return {
     agenda,
     appointments,
     agendaError,
     appointmentsError,
     isLoading: isAgendaLoading || isAppointmentsLoading,
+    isAgendaOwner,
   };
 };

@@ -22,6 +22,8 @@ function createSerializedApiError(
 ): SerializedApiError {
   const requestedUrl = error.request?.responseURL || error?.config?.url || '';
 
+  console.info({ error });
+
   if (isAxiosError(error)) {
     const response = error.response;
     const responseError = response?.data;

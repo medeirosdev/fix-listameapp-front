@@ -1,5 +1,5 @@
 import { api } from '~/app/services/api/api';
-import { IAgenda } from '~/modules/schedule/types/agendas';
+import { IAgenda, IUserAgenda } from '~/modules/schedule/types/agendas';
 
 const BASE_URL = '/agendas';
 
@@ -29,9 +29,32 @@ const findById = async (agendaId: IAgenda['id']): Promise<IAgenda> => {
   return data;
 };
 
+const follow = async (agendaId: IAgenda['id']): Promise<IUserAgenda> => {
+  const endpoint = BASE_URL.concat(`/follow/${agendaId}`);
+  const { data } = await api.post(endpoint);
+  return data;
+};
+
+const unfollow = async (agendaId: IAgenda['id']): Promise<IUserAgenda> => {
+  const endpoint = BASE_URL.concat(`/unfollow/${agendaId}`);
+  const { data } = await api.delete(endpoint);
+  return data;
+};
+
+const getFollowers = async (
+  agendaId: IAgenda['id'],
+): Promise<IUserAgenda[]> => {
+  const endpoint = BASE_URL.concat(`/followers/${agendaId}`);
+  const { data } = await api.get(endpoint);
+  return data;
+};
+
 export const agendasApi = {
   list,
   profileList,
   filter,
   findById,
+  follow,
+  unfollow,
+  getFollowers,
 };

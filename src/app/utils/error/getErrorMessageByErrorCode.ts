@@ -13,6 +13,14 @@ export const getErrorMessageByErrorCode = (
     AppErrorCodeEnum.INTERNAL_SERVER_ERROR,
     'Erro interno, tente novamente mais tarde',
   );
+  messages.set(
+    AppErrorCodeEnum.FORBIDDEN_WRONG_PASSWORD,
+    'Senha inválida, tente novamente.',
+  );
+  messages.set(
+    AppErrorCodeEnum.USER_MAIL_NOT_FOUND,
+    'E-mail de usuário não encontrado, verifique o e-mail informado e tente novamente.',
+  );
 
   return messages.get(code) as string;
 };

@@ -3,6 +3,7 @@ import {
   NativeStackNavigationProp,
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
+import { IUser } from '~/modules/auth/types/user';
 import { IAgenda } from '~/modules/schedule/types/agendas';
 
 export type PrivateBridgeParamList = {
@@ -11,6 +12,10 @@ export type PrivateBridgeParamList = {
   ScheduleDetails: {
     id: IAgenda['id'];
   };
+  EditProfile: undefined;
+  EditProfileName: undefined;
+  EditProfilePassword: undefined;
+  ForgotPassword: undefined;
 };
 
 export type PrivateBridgeScreensNames = keyof PrivateBridgeParamList;

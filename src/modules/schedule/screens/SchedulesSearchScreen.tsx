@@ -8,8 +8,9 @@ import { useAgendasList } from '~/modules/home/hooks/useAgendasList';
 import { ListEmptyState } from '~/modules/home/components/ListEmptyState';
 
 export const SchedulesSearchScreen: FC = () => {
-  const [search, setSearch] = useState('');
-  const { agendas, isLoading } = useAgendasList({ isProfile: false, search });
+  const { setSearch, agendas, isLoading } = useAgendasList({
+    isProfile: false,
+  });
 
   return (
     <SchedulesSearchScreenPageContainer>

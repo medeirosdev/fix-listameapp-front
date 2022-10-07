@@ -4,16 +4,16 @@ import { QueryClient } from '@tanstack/react-query';
 import { persistQueryClient } from '@tanstack/react-query-persist-client';
 
 const MAX_RETRIES = 3;
+const ONE_HOUR_IN_MILLISECONDS = 1000 * 60 * 60;
 
 export function createApplicationQueryClient(isRetriesEnabled = true) {
   return new QueryClient({
     defaultOptions: {
       queries: {
-        cacheTime: 1000 * 60 * 60 * 48,
-        staleTime: 600000,
         retry: isRetriesEnabled
           ? (count, _error) => count < MAX_RETRIES
           : false,
+        staleTime: 1000,
       },
     },
   });

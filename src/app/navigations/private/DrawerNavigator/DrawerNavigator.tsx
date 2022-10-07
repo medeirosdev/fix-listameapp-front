@@ -24,6 +24,7 @@ import { useDispatch } from 'react-redux';
 import { queryClient } from '~/app/services/queryClient';
 import { DrawerParamList } from '~/app/navigations/private/DrawerNavigator/types';
 import { useScreenHeaderOptions } from '~/app/navigations/private/hooks/useScreenHeaderOptions';
+import { usePrivateNavigation } from '~/app/navigations/private/hooks/usePrivateNavigator';
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -36,12 +37,12 @@ const styles = StyleSheet.create({
 function CustomDrawerContent(props: DrawerContentComponentProps) {
   const theme = useTheme();
   const user = useAppSelector(currentUserSelector);
+  const navigation = usePrivateNavigation();
 
   const dispatch = useDispatch();
 
   const logout = async () => {
-    queryClient.invalidateQueries(['appointmentsProfile']);
-    queryClient.invalidateQueries(['appointmentsProfileFilter']);
+    await queryClient.invalidateQueries();
     await deleteTokenFromSafeStorage();
     await dispatch(authActions.resetWithNewStatus('GUEST'));
   };
@@ -51,7 +52,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
       <DrawerContentScrollView
         {...props}
         contentContainerStyle={styles.contentContainerStyle}>
-        <DrawerContentHeader>
+        <DrawerContentHeader onPress={() => navigation.navigate('EditProfile')}>
           <Row alignItems="center">
             <UserAvatar variant="medium" />
             <DrawerContentHeaderTitle fontGroup="bodyLargeRegular">
@@ -121,7 +122,9 @@ const DrawerContent = styled.View`
   background-color: ${({ theme: { colors } }) => colors.neutral.white};
 `;
 
-const DrawerContentHeader = styled.View`
+const DrawerContentHeader = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.7,
+})`
   padding: 12px;
   border-bottom-width: 0.7px;
   border-bottom-color: ${({ theme: { colors } }) => colors.primary.blue[700]};

@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { IFormInputProps } from '~/app/components/Form/types';
 import * as yup from 'yup';
+import { IInputProps } from '~/app/components/Input/types';
 
 export type FormFieldType = {
   name: string;
@@ -10,12 +11,15 @@ export type FormFieldType = {
   confirmPassword: string;
 };
 
-export type UseForgotPasswordFormInputsParams = { handleSubmit: () => void };
+export type UseForgotPasswordFormInputsParams = {
+  handleSubmit: () => void;
+  inputVariant?: IInputProps['variant'];
+};
 
 export const useForgotPasswordFormInputs = (
   params: UseForgotPasswordFormInputsParams,
 ) => {
-  const { handleSubmit } = params;
+  const { handleSubmit, inputVariant = 'fullWhite' } = params;
 
   const emailInput = useMemo<IFormInputProps>(
     () => ({
@@ -30,7 +34,7 @@ export const useForgotPasswordFormInputs = (
       label: 'E-mail',
       placeholder: 'Digite seu e-mail',
       blurOnSubmit: false,
-      variant: 'fullWhite',
+      variant: inputVariant,
     }),
     [],
   );

@@ -1,6 +1,7 @@
 import React, { FC, useMemo } from 'react';
 import { Modal, StyleSheet, View } from 'react-native';
 import styled, { useTheme } from 'styled-components/native';
+import { AppModal } from '~/app/components/AppModal';
 import { Button } from '~/app/components/Button';
 import { ButtonProps } from '~/app/components/Button/types';
 import { Row } from '~/app/components/Row';
@@ -39,88 +40,42 @@ export const FeedbackModal: FC<IFeedbackModalProps> = (props) => {
   } = props;
   const theme = useTheme();
 
-  const styles = useMemo(
-    () =>
-      StyleSheet.create({
-        modalView: {
-          marginHorizontal: 20,
-          backgroundColor: theme.colors.neutral.white,
-          borderRadius: theme.radii.xs,
-          padding: 24,
-          alignItems: 'center',
-          shadowColor: theme.colors.neutral.black,
-          ...theme.shadows.dp12,
-          elevation: theme.elevations.dp12,
-        },
-      }),
-    [theme],
-  );
-
   return (
-    <CenteredView>
-      <Modal
-        animationType="fade"
-        transparent
-        visible={visible}
-        onRequestClose={() => {
-          onClose();
-        }}>
-        <ContentContainer>
-          <View style={styles.modalView}>
-            {!message && !!email?.template && (
-              <>
-                <Typography fontGroup="bodyRegular">
-                  {EMAIL_FEEDBACK[email.template].concat(' ')}
-                  <Typography
-                    fontGroup="bodyRegular"
-                    color={theme.colors.brand}>
-                    {email?.value}
-                  </Typography>
-                </Typography>
-              </>
-            )}
-            {!!message && (
-              <Typography fontGroup="bodyRegular">{message}</Typography>
-            )}
-            <Row mt={24} justifyContent="space-evenly">
-              {!isSingleAction && (
-                <ButtonWithMargin
-                  onPress={() => {
-                    cancelAction?.();
-                    onClose();
-                  }}
-                  variant="outlined">
-                  {cancelText}
-                </ButtonWithMargin>
-              )}
-              <Button
-                fullWidth={isSingleAction}
-                onPress={() => {
-                  confirmAction?.();
-                  onClose();
-                }}>
-                {confirmText}
-              </Button>
-            </Row>
-          </View>
-        </ContentContainer>
-      </Modal>
-    </CenteredView>
+    <AppModal onClose={onClose} visible={visible}>
+      {!message && !!email?.template && (
+        <>
+          <Typography fontGroup="bodyRegular">
+            {EMAIL_FEEDBACK[email.template].concat(' ')}
+            <Typography fontGroup="bodyRegular" color={theme.colors.brand}>
+              {email?.value}
+            </Typography>
+          </Typography>
+        </>
+      )}
+      {!!message && <Typography fontGroup="bodyRegular">{message}</Typography>}
+      <Row mt={24} justifyContent="space-evenly">
+        {!isSingleAction && (
+          <ButtonWithMargin
+            onPress={() => {
+              cancelAction?.();
+              onClose();
+            }}
+            variant="outlined">
+            {cancelText}
+          </ButtonWithMargin>
+        )}
+        <Button
+          fullWidth={isSingleAction}
+          onPress={() => {
+            confirmAction?.();
+            onClose();
+          }}>
+          {confirmText}
+        </Button>
+      </Row>
+    </AppModal>
   );
 };
-
-const CenteredView = styled.View.attrs({
-  justifyContent: 'center',
-  alignItems: 'center',
-})`
-  position: absolute;
-  height: 100%;
-  width: 100%;
-`;
-
-const ContentContainer = styled(CenteredView)`
-  background-color: ${({ theme: { colors } }) => colors.neutral.overlay};
-`;
 
 const ButtonWithMargin = styled(Button)`
   margin-right: 8px;

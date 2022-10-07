@@ -11,3 +11,5 @@ export interface IUser {
   updated_at: string;
   avatar_url: null;
 }
+
+export const isUser = (instance: any): instance is IUser => 'email' in instance;

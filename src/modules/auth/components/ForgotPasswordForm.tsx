@@ -1,4 +1,4 @@
-import React, { createRef } from 'react';
+import React, { createRef, FC, useMemo } from 'react';
 import { Row } from '~/app/components/Row';
 import { useNavigation } from '@react-navigation/native';
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
@@ -17,15 +17,27 @@ import { useTheme } from 'styled-components';
 import { FeedbackModal } from '~/app/components/FeedbackModal';
 import { useFeedbackModal } from '~/modules/auth/hooks/useFeedbackModal';
 import styled from 'styled-components/native';
+import { IInputProps } from '~/app/components/Input/types';
+import { IAppModalProps } from '~/app/components/AppModal';
 
-export const ForgotPasswordForm = () => {
+interface IForgotPasswordForm {
+  variant?: 'default' | 'modal';
+  closeParentModal?: IAppModalProps['onClose'];
+}
+
+export const ForgotPasswordForm: FC<IForgotPasswordForm> = ({
+  variant,
+  closeParentModal,
+}) => {
   const theme = useTheme();
+  const isModal = useMemo(() => variant === 'modal', [variant]);
   const navigation = useNavigation<PublicNavigation>();
   const { mutate, isLoading, error } = useMutation(passwordApi.forgot);
   const { isVisible, setIsVisible, closeModal } = useFeedbackModal();
   const errorMessage = (error as SerializedApiError)?.resolvedErrorMessage;
   const submitButtonRef = createRef<TouchableOpacity>();
   const { inputs, schema } = useForgotPasswordFormInputs({
+    inputVariant: isModal ? 'default' : 'fullWhite',
     handleSubmit: triggerSubmit,
   });
   const formData = useForm<FormFieldType>({
@@ -46,10 +58,18 @@ export const ForgotPasswordForm = () => {
 
   const onSubmitFailure: SubmitErrorHandler<FormFieldType> = () => {};
 
+  const handleFeedbackModalClose = () => {
+    closeModal();
+
+    if (isModal && !error) {
+      closeParentModal?.();
+    }
+  };
+
   return (
     <>
       <FeedbackModal
-        onClose={closeModal}
+        onClose={handleFeedbackModalClose}
         visible={isVisible}
         isSingleAction
         confirmText="Fechar"
@@ -61,25 +81,27 @@ export const ForgotPasswordForm = () => {
       />
       <View>
         <Row mb={8}>
-          <Typography fontGroup="h6Medium" color={theme.colors.neutral.white}>
+          <Typography
+            fontGroup="h6Medium"
+            color={isModal ? '' : theme.colors.neutral.white}>
             Esqueci minha senha
           </Typography>
         </Row>
         <Row mb={32}>
           <Typography
             fontGroup="bodyRegular"
-            color={theme.colors.neutral.white}>
+            color={isModal ? '' : theme.colors.neutral.white}>
             Digite seu e-mail para recuperar sua senha.
           </Typography>
         </Row>
         <Form formData={formData} inputs={inputs} />
       </View>
       <ForgotPasswordFormFooter>
-        <Row mb={16}>
+        <Row mb={16} mt={isModal ? 16 : 0}>
           <Button
             ref={submitButtonRef}
             fullWidth
-            variant="whiteFilled"
+            variant={isModal ? 'primary' : 'whiteFilled'}
             isLoading={isLoading}
             onPress={formData.handleSubmit(onSubmitSuccess, onSubmitFailure)}>
             Recuperar senha
@@ -88,8 +110,10 @@ export const ForgotPasswordForm = () => {
         <Row>
           <Button
             fullWidth
-            variant="whiteOutlined"
-            onPress={() => navigation.navigate('Login')}>
+            variant={isModal ? 'outlined' : 'whiteOutlined'}
+            onPress={() =>
+              isModal ? closeParentModal?.() : navigation.navigate('Login')
+            }>
             Cancelar
           </Button>
         </Row>

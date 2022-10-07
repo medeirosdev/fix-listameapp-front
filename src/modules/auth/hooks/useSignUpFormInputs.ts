@@ -4,6 +4,8 @@ import { IFormInputProps } from '~/app/components/Form/types';
 import * as yup from 'yup';
 import { useSetAtom } from 'jotai';
 import { signUpStepValues } from '~/modules/auth/state/atoms/signUpStepValues';
+import { usePasswordInput } from '~/app/hooks/usePasswordInput';
+import { useConfirmPasswordInput } from '~/app/hooks/useConfirmPasswordInput';
 
 export type FormFieldType = {
   name: string;
@@ -23,9 +25,21 @@ export type UseSignUpFormInputsParams = { handleSubmit: () => void };
 
 export const useSignUpFormInputs = (params: UseSignUpFormInputsParams) => {
   const { handleSubmit } = params;
-  const [isShowingPassword, setIsShowingPassword] = useState(true);
-  const [isShowingConfirmPassword, setIsShowingConfirmPassword] =
-    useState(true);
+
+  const { passwordInputRef, passwordInput, passwordSchema } = usePasswordInput({
+    onChangeText: (password) => updateSignUpFormValues({ password }),
+    onSubmitEditing: () => confirmPasswordInputRef.current?.focus(),
+  });
+
+  const {
+    confirmPasswordInputRef,
+    confirmPasswordInput,
+    confirmPasswordSchema,
+  } = useConfirmPasswordInput({
+    onChangeText: (confirmPassword) =>
+      updateSignUpFormValues({ confirmPassword }),
+    onSubmitEditing: handleSubmit,
+  });
 
   const initialValues: FormFieldType = {
     name: '',
@@ -39,8 +53,6 @@ export const useSignUpFormInputs = (params: UseSignUpFormInputsParams) => {
 
   const loginInputRef = createRef<TextInput>();
   const emailInputRef = createRef<TextInput>();
-  const passwordInputRef = createRef<TextInput>();
-  const confirmPasswordInputRef = createRef<TextInput>();
 
   const nameInput = useMemo<IFormInputProps>(
     () => ({
@@ -98,52 +110,7 @@ export const useSignUpFormInputs = (params: UseSignUpFormInputsParams) => {
     [],
   );
 
-  const passwordInput = useMemo<IFormInputProps>(
-    () => ({
-      ref: passwordInputRef,
-      name: 'password',
-      rules: {
-        required: true,
-      },
-      textContentType: 'newPassword',
-      autoCapitalize: 'none',
-      returnKeyType: 'next',
-      onChangeText: (password) => updateSignUpFormValues({ password }),
-      label: 'Senha',
-      placeholder: 'Digite uma senha',
-      iconName: isShowingPassword ? 'visibility' : 'visibility_off',
-      secureTextEntry: isShowingPassword,
-      onIconPress: () => setIsShowingPassword((prev) => !prev),
-      blurOnSubmit: false,
-      onSubmitEditing: () => confirmPasswordInputRef.current?.focus(),
-    }),
-    [isShowingPassword],
-  );
-
-  const confirmPasswordInput = useMemo<IFormInputProps>(
-    () => ({
-      ref: confirmPasswordInputRef,
-      name: 'confirmPassword',
-      rules: {
-        required: true,
-      },
-      textContentType: 'password',
-      autoCapitalize: 'none',
-      onChangeText: (confirmPassword) =>
-        updateSignUpFormValues({ confirmPassword }),
-      label: 'Repita a senha',
-      returnKeyType: 'done',
-      placeholder: 'Digite novamente a senha',
-      iconName: isShowingConfirmPassword ? 'visibility' : 'visibility_off',
-      secureTextEntry: isShowingConfirmPassword,
-      onSubmitEditing: handleSubmit,
-      onIconPress: () => setIsShowingConfirmPassword((prev) => !prev),
-    }),
-    [isShowingConfirmPassword],
-  );
-
   const schema = useMemo(() => {
-    const passwordErrorMessage = 'A senha precisa ter no mínimo 8 caracteres';
     return yup
       .object({
         name: yup.string().required('Nome obrigatório'),
@@ -152,17 +119,8 @@ export const useSignUpFormInputs = (params: UseSignUpFormInputsParams) => {
           .string()
           .email('Digite um e-mail válido')
           .required('E-mail obrigatório'),
-        password: yup
-          .string()
-          .required('Senha obrigatória')
-          .min(8, passwordErrorMessage)
-          .max(16, passwordErrorMessage),
-        confirmPassword: yup
-          .string()
-          .required('Confirmação de senha obrigatória')
-          .oneOf([yup.ref('password'), undefined], 'As senhas não conferem')
-          .min(8, passwordErrorMessage)
-          .max(16, passwordErrorMessage),
+        password: passwordSchema,
+        confirmPassword: confirmPasswordSchema,
       })
       .required();
   }, []);

@@ -9,8 +9,9 @@ import { ListEmptyState } from '~/modules/home/components/ListEmptyState';
 import { usePrivateNavigation } from '~/app/navigations/private/hooks/usePrivateNavigator';
 
 export const SchedulesScreen: FC = () => {
-  const [search, setSearch] = useState('');
-  const { agendas, isLoading } = useAgendasList({ isProfile: true, search });
+  const { setSearch, agendas, isLoading } = useAgendasList({
+    isProfile: true,
+  });
   const navigation = usePrivateNavigation();
 
   return (

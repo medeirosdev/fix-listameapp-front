@@ -40,7 +40,6 @@ export const useScheduleListFilter = () => {
       const filtered = await appointmentsApi.filter(params);
       setFilteredList(filtered);
     } catch (error) {
-      console.error(error);
       setFilteredList([]);
     } finally {
       setIsFilterLoading(false);

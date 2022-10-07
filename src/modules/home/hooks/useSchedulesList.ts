@@ -15,11 +15,6 @@ export const useSchedulesList: IUseSchedulesList = () => {
   const { data: schedulesList, isLoading: isSchedulesLoading } = useQuery(
     ['appointmentsProfile'],
     appointmentsApi.list,
-    {
-      onSettled(data, error) {
-        console.log(data, error);
-      },
-    },
   );
 
   return {

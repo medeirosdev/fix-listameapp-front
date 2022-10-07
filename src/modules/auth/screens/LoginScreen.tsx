@@ -76,10 +76,10 @@ export const LoginScreen: FC = () => {
     <GradientContainerView>
       <LayoutContainer isCentered>
         <Logo source={logo} />
-        <View>
-          <KeyboardAvoidingView
-            keyboardVerticalOffset={headerHeight}
-            behavior={Platform.OS === 'android' ? 'height' : 'padding'}>
+        <KeyboardAvoidingView
+          keyboardVerticalOffset={headerHeight}
+          behavior={Platform.OS === 'android' ? 'height' : 'padding'}>
+          <View>
             <FormContainer>
               <Row mb={24}>
                 <Typography fontGroup="bodyMedium">Acesse sua conta</Typography>
@@ -135,31 +135,31 @@ export const LoginScreen: FC = () => {
                 </Row>
               )}
             </FormContainer>
-          </KeyboardAvoidingView>
-          <DividerWithText text="ou" />
-          <Row justifyContent="space-evenly" mt={32}>
-            <ButtonWrapper mr={16}>
-              <Button
-                icon={<GoogleIcon />}
-                variant="social"
-                disabled={isGoogleButtonDisabled()}
-                fullWidth
-                isLoading={googleAuth.signInLoading}
-                onPress={googleAuth.signIn}
-              />
-            </ButtonWrapper>
-            <ButtonWrapper>
-              <Button
-                icon={<FacebookIcon />}
-                variant="social"
-                disabled={isFacebookButtonDisabled()}
-                fullWidth
-                isLoading={facebookAuth.signInLoading}
-                onPress={facebookAuth.signIn}
-              />
-            </ButtonWrapper>
-          </Row>
-        </View>
+            <DividerWithText text="ou" />
+            <Row justifyContent="space-evenly" mt={32}>
+              <ButtonWrapper mr={16}>
+                <Button
+                  icon={<GoogleIcon />}
+                  variant="social"
+                  disabled={isGoogleButtonDisabled()}
+                  fullWidth
+                  isLoading={googleAuth.signInLoading}
+                  onPress={googleAuth.signIn}
+                />
+              </ButtonWrapper>
+              <ButtonWrapper>
+                <Button
+                  icon={<FacebookIcon />}
+                  variant="social"
+                  disabled={isFacebookButtonDisabled()}
+                  fullWidth
+                  isLoading={facebookAuth.signInLoading}
+                  onPress={facebookAuth.signIn}
+                />
+              </ButtonWrapper>
+            </Row>
+          </View>
+        </KeyboardAvoidingView>
       </LayoutContainer>
     </GradientContainerView>
   );

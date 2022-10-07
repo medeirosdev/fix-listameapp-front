@@ -12,11 +12,20 @@ import { AgendaListItem } from '~/modules/schedule/components/AgendaListItem/Age
 import { SchedulesListWithAccordion } from '~/modules/schedule/components/SchedulesListWithAccordion/SchedulesListWithAccordion';
 import { useScheduleDetails } from '~/modules/schedule/hooks/useScheduleDetails';
 import { ListEmptyState } from '~/modules/home/components/ListEmptyState';
+import { Button } from '~/app/components/Button';
+import { useAgendaFollower } from '~/modules/schedule/hooks/useAgendaFollower';
 
 export const ScheduleDetailsScreen: FC<
   PrivateBridgeNavigationScreenPropsGeneric<'ScheduleDetails'>
 > = ({ route: { params } }) => {
-  const { agenda, appointments } = useScheduleDetails(params.id);
+  const {
+    agenda,
+    appointments,
+    isAgendaOwner,
+    isLoading: isAgendaLoading,
+  } = useScheduleDetails(params.id);
+  const { isFollowing, follow, unfollow, followersCount, isLoading } =
+    useAgendaFollower(params.id);
 
   if (!agenda) return <></>;
 
@@ -29,7 +38,17 @@ export const ScheduleDetailsScreen: FC<
           owner={agenda.user?.name}
         />
       </HeaderRow>
-      <HeaderSubtitleRow>0 seguidores</HeaderSubtitleRow>
+      <HeaderFollowersRow>
+        <Typography>{followersCount} seguidores</Typography>
+        {!isAgendaOwner && (
+          <Button
+            isLoading={isAgendaLoading || isLoading}
+            variant={isFollowing ? 'outlined' : 'primary'}
+            onPress={isFollowing ? unfollow : follow}>
+            {isFollowing ? 'Seguindo' : 'Seguir'}
+          </Button>
+        )}
+      </HeaderFollowersRow>
       <LayoutContainer>
         <Typography fontGroup="h6Bold">Descrição</Typography>
         <DescriptionText>{agenda.description}</DescriptionText>
@@ -55,10 +74,13 @@ const HeaderRow = styled(Row)`
   padding: 16px 24px;
 `;
 
-const HeaderSubtitleRow = styled(Typography)`
+const HeaderFollowersRow = styled(Row)`
   background-color: ${({ theme }) => theme.colors.gray[50]};
   text-align: right;
   padding: 16px 24px;
+  margin-bottom: 24px;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const DescriptionText = styled(Typography).attrs({
