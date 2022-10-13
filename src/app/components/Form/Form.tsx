@@ -18,11 +18,26 @@ export const Form = (props: IFormProps) => {
       {inputs.map((input: IFormInputProps, index) => {
         const error = String(errors[input.name]?.message || '');
         const isLast = index === inputs.length - 1;
+        const inputProps = {
+          ...input,
+          error,
+        };
+
+        if (input.sideInput?.name) {
+          const sideInputError = input?.sideInput
+            ? String(errors[input.sideInput?.name]?.message || '')
+            : '';
+
+          inputProps.sideInput = {
+            ...input.sideInput,
+            error: sideInputError,
+          };
+        }
         return (
           <FormRow
             key={`${input.name}_${index}_${inputs.length}`}
             control={control}
-            input={{ ...input, error }}
+            input={inputProps}
             spacing={isLast ? 0 : rowsSpacing}
           />
         );

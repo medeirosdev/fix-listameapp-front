@@ -13,9 +13,9 @@ import { Icon } from '~/app/components/Icon';
 import { Row } from '~/app/components/Row';
 import { usePrivateNavigation } from '~/app/navigations/private/hooks/usePrivateNavigator';
 import { profilesApi } from '~/modules/auth/services/api/profilesApi';
-import { EditProfileBottomSheet } from '~/modules/profile/components/EditProfileBottomSheet';
+import { EditAvatarBottomSheet } from '~/modules/profile/components/EditAvatarBottomSheet';
 import { useAvatarUpload } from '~/modules/profile/hooks/useAvatarUpload';
-import { TouchableOpacity } from 'react-native';
+import { TouchableSection } from '~/app/components/TouchableSection';
 
 export const EditProfileScreen: FC = () => {
   const navigation = usePrivateNavigation();
@@ -28,9 +28,12 @@ export const EditProfileScreen: FC = () => {
     takePhotoFromCamera,
     photo,
     setPhoto,
-    isLoading: isAvatarLoading,
+    isAvatarLoading,
+    isDeleteLoading,
+    deleteAvatar,
   } = useAvatarUpload({
-    uploadApiCallback: profilesApi.uploadAvatar,
+    uploadAvatarRequest: profilesApi.uploadAvatar,
+    deleteAvatarRequest: profilesApi.deleteAvatar,
   });
 
   const goToEditNameScreen = () => navigation.navigate('EditProfileName');
@@ -59,30 +62,27 @@ export const EditProfileScreen: FC = () => {
                 {user?.email || ''}
               </UserTextInfo>
             </UserDataWrapper>
-            <TouchableOpacity activeOpacity={0.8} onPress={goToEditNameScreen}>
-              <FooterEditSection my={16}>
-                <FooterEditSectionText>Alterar nome</FooterEditSectionText>
-                <Icon name="arrow_forward_ios" />
-              </FooterEditSection>
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={goToEditPassowrdScreen}>
-              <FooterEditSection>
-                <FooterEditSectionText>Alterar senha</FooterEditSectionText>
-                <Icon name="arrow_forward_ios" />
-              </FooterEditSection>
-            </TouchableOpacity>
+            <TouchableSection
+              rowProps={{
+                my: 16,
+              }}
+              onPress={goToEditNameScreen}>
+              Alterar nome
+            </TouchableSection>
+            <TouchableSection onPress={goToEditPassowrdScreen}>
+              Alterar senha
+            </TouchableSection>
           </>
         )}
       </AvatarHeaderLayout>
       {bottonSheetOpen && (
-        <EditProfileBottomSheet
+        <EditAvatarBottomSheet
           onClose={() => setBottonSheetOpen(false)}
           choosePhotoOnGalery={choosePhotoOnGalery}
           takePhotoFromCamera={takePhotoFromCamera}
-          isAvatarLoading={isAvatarLoading}
+          isLoading={isAvatarLoading || isDeleteLoading}
           setPhoto={setPhoto}
+          deleteAvatar={deleteAvatar}
         />
       )}
     </>
@@ -98,7 +98,7 @@ export const UserDataWrapper = styled.View`
   margin: 12px 0px;
 `;
 
-const FooterEditSection = styled(Row)`
+export const FooterEditSection = styled(Row)`
   padding: 15px;
   width: 100%;
   display: flex;
@@ -108,6 +108,6 @@ const FooterEditSection = styled(Row)`
   border-radius: 8px;
 `;
 
-const FooterEditSectionText = styled(Typography).attrs({
+export const FooterEditSectionText = styled(Typography).attrs({
   fontGroup: 'bodyRegular',
 })``;

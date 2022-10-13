@@ -1,5 +1,11 @@
+import { Platform } from 'react-native';
 import { api } from '~/app/services/api/api';
-import { IAgenda, IUserAgenda } from '~/modules/schedule/types/agendas';
+import { IUploadAvatarRequest } from '~/modules/profile/types/upload';
+import {
+  IAgenda,
+  ICreateAgendaDTO,
+  IUserAgenda,
+} from '~/modules/schedule/types/agendas';
 
 const BASE_URL = '/agendas';
 
@@ -49,7 +55,55 @@ const getFollowers = async (
   return data;
 };
 
+const deleteAgenda = async (id: IAgenda['id']): Promise<void> => {
+  const endpoint = BASE_URL.concat('/');
+  await api.delete(endpoint, { params: { id } });
+};
+
+const uploadAvatar: IUploadAvatarRequest<IAgenda> = async ({
+  imagePickerData,
+  id,
+}) => {
+  const endpoint = BASE_URL.concat('/avatar/', id ?? '');
+  const formData = new FormData();
+
+  const asset = imagePickerData?.assets?.[0];
+
+  console.info({ os: Platform.OS, asset });
+  formData.append('avatar', {
+    uri: asset?.uri,
+    name: asset?.fileName,
+    type: asset?.type,
+  });
+  formData.append('MimeType', asset?.type);
+
+  try {
+    const { data } = await api.patch(endpoint, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const deleteAvatar = async (id?: IAgenda['id']): Promise<IAgenda> => {
+  const endpoint = BASE_URL.concat('/avatar/', id ?? '');
+  const { data } = await api.delete(endpoint);
+  return data;
+};
+
+const create = async (agendaData: ICreateAgendaDTO) => {
+  const endpoint = BASE_URL.concat('/');
+
+  const { data } = await api.post(endpoint, agendaData);
+  return data;
+};
+
 export const agendasApi = {
+  create,
   list,
   profileList,
   filter,
@@ -57,4 +111,7 @@ export const agendasApi = {
   follow,
   unfollow,
   getFollowers,
+  deleteAgenda,
+  deleteAvatar,
+  uploadAvatar,
 };

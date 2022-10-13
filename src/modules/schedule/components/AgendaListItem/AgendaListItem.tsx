@@ -28,6 +28,7 @@ export const AgendaListItem = (props: IAgendaListProps) => {
     });
   };
 
+  console.log({ avatar });
   return (
     <AgendaTouchableContainer
       disabled={ignoreOnPress}
@@ -35,7 +36,7 @@ export const AgendaListItem = (props: IAgendaListProps) => {
       onPress={goToScheduleDetailsPage}>
       <Avatar
         source={
-          avatar
+          avatar && avatar?.includes('http')
             ? {
                 uri: avatar,
                 width: 48,
@@ -67,7 +68,7 @@ export const Title = styled(Typography).attrs({
 })`
   color: ${({ theme: { colors } }) => colors.gray[900]};
   overflow: hidden;
-  width: 80%;
+  width: 90%;
 `;
 
 export const Subtitle = styled(Typography).attrs({

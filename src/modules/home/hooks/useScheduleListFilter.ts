@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import {
   appointmentsApi,
   AppointmentsApiFilterParams,
-} from '~/modules/home/services/api/appointmentsApi';
+} from '~/modules/appointments/services/api/appointmentsApi';
 import {
   agendaCheckedFilterAtom,
   agendaDatesFilterAtom,
@@ -12,7 +12,7 @@ import {
   agendaSelectedFiltersCountAtom,
   isFilteringAtom,
 } from '~/modules/home/state/atoms/agendaFilterAtoms';
-import { ISchedulesListItem } from '~/modules/schedule/types/appointments';
+import { ISchedulesListItem } from '~/modules/appointments/types/appointments';
 
 export const useScheduleListFilter = () => {
   const agendaDateFilterRange = useAtomValue(agendaDatesFilterAtom);

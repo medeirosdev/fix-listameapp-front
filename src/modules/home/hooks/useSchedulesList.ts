@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { appointmentsApi } from '~/modules/home/services/api/appointmentsApi';
-import { ISchedulesListItem } from '~/modules/schedule/types/appointments';
+import { appointmentsApi } from '~/modules/appointments/services/api/appointmentsApi';
+import { ISchedulesListItem } from '~/modules/appointments/types/appointments';
 
 type UseSchedulesListReturn = {
   schedulesList?: ISchedulesListItem[];

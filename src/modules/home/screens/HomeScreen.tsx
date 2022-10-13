@@ -130,12 +130,12 @@ export const HomeScreen: FC = () => {
         <Shadow dp="dp06">
           <FloatingActionButton>
             <FloatingActionButtonItem
-              onPress={() => Alert.alert('Pressed 1!')}
+              onPress={() => navigation.navigate('NewSchedule')}
               label="Nova agenda"
               icon="menu_book"
             />
             <FloatingActionButtonItem
-              onPress={() => Alert.alert('Pressed 2!')}
+              onPress={() => navigation.navigate('NewAppointment')}
               label="Nova tarefa"
               icon="schedule"
             />

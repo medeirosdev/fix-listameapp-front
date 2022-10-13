@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { IScheduleListItemProps } from '~/modules/home/components/ScheduleList/anathomy/ListItem';
-import { IAppointment } from '~/modules/schedule/types/appointments';
+import { IAppointment } from '~/modules/appointments/types/appointments';
 
 export const getScheduleListItemData = (
   listItem: IAppointment,

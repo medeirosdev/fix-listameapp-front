@@ -54,7 +54,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
         contentContainerStyle={styles.contentContainerStyle}>
         <DrawerContentHeader onPress={() => navigation.navigate('EditProfile')}>
           <Row alignItems="center">
-            <UserAvatar variant="medium" />
+            <UserAvatar url="" variant="medium" />
             <DrawerContentHeaderTitle fontGroup="bodyLargeRegular">
               {getUserNames(user?.name, false)}
             </DrawerContentHeaderTitle>

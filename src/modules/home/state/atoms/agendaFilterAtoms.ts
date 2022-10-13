@@ -3,7 +3,12 @@ import { atomWithReset } from 'jotai/utils';
 import { SelectDateBottomShetTypes } from '~/modules/home/components/SelectDateBottomSheet';
 import { IAgenda } from '~/modules/schedule/types/agendas';
 
-export type AgendaFilterDateRange = {
+export const dateAtomInitialState = {
+  start: {},
+  end: {},
+};
+
+export type IDateAtom = {
   start?: {
     value?: string;
     label?: string;
@@ -14,10 +19,11 @@ export type AgendaFilterDateRange = {
   };
 } | null;
 
+export type DateAtomFunction = typeof agendaDatesFilterAtom;
 export type AgendaFilterChecked = Record<IAgenda['id'], boolean> | null;
 
 export const isFilteringAtom = atomWithReset(false);
-export const agendaDatesFilterAtom = atomWithReset<AgendaFilterDateRange>(null);
+export const agendaDatesFilterAtom = atomWithReset<IDateAtom>(null);
 export const bottomSheetOpenTypeAtom = atom<SelectDateBottomShetTypes | null>(
   null,
 );

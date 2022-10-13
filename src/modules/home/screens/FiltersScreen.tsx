@@ -10,9 +10,10 @@ import { ListEmptyState } from '~/modules/home/components/ListEmptyState';
 import { ScheduleFilterList } from '~/modules/home/components/ScheduleFilterList/ScheduleFilterList';
 import { SelectDateBottomSheet } from '~/modules/home/components/SelectDateBottomSheet';
 import { useAgendasList } from '~/modules/home/hooks/useAgendasList';
-import { useFilterByDate } from '~/modules/home/hooks/useFilterByDate';
+import { useDateRange } from '~/modules/home/hooks/useDateRange';
 import {
   agendaCheckedFilterAtom,
+  agendaDatesFilterAtom,
   agendaSelectedFiltersCountAtom,
   isFilteringAtom,
 } from '~/modules/home/state/atoms/agendaFilterAtoms';
@@ -24,7 +25,7 @@ export const FiltersScreen: FC = () => {
     bottomSheetOpenType,
     setBottomSheetOpenType,
     filterDateRange,
-  } = useFilterByDate();
+  } = useDateRange({ dateAtom: agendaDatesFilterAtom });
   const { isLoading, agendas } = useAgendasList({ isProfile: true });
   const updateCheckedAgendas = useSetAtom(agendaCheckedFilterAtom);
   const setIsFiltering = useSetAtom(isFilteringAtom);
@@ -122,7 +123,9 @@ export const FiltersScreen: FC = () => {
             />
           )}
         </LayoutContainer>
-        {Boolean(bottomSheetOpenType) && <SelectDateBottomSheet />}
+        {Boolean(bottomSheetOpenType) && (
+          <SelectDateBottomSheet dateAtom={agendaDatesFilterAtom} />
+        )}
       </FiltersScreenPageContainer>
     </>
   );

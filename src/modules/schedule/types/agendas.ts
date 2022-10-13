@@ -32,3 +32,9 @@ export interface IUserAgenda {
 
 export const isAgenda = (instance: any): instance is IAgenda =>
   'members' in instance;
+
+export interface ICreateAgendaDTO {
+  name: string;
+  description: string;
+  isPrivate: boolean;
+}

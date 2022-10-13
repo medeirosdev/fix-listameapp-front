@@ -1,7 +1,7 @@
 import { View, ViewStyle } from 'react-native';
 import styled from 'styled-components/native';
 
-interface IRowProps extends ViewStyle {
+export interface IRowProps extends ViewStyle {
   mb?: ViewStyle['marginBottom'];
   mt?: ViewStyle['marginTop'];
   mx?: ViewStyle['marginHorizontal'];

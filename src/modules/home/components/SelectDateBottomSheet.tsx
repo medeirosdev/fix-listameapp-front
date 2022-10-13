@@ -5,19 +5,22 @@ import styled, { useTheme } from 'styled-components/native';
 import { Typography } from '~/app/components/Typography';
 import { SchedulesCalendar } from '~/modules/home/components/SchedulesCalendar/SchedulesCalendar';
 import { DateData } from 'react-native-calendars';
-import { useFilterByDate } from '~/modules/home/hooks/useFilterByDate';
+import {
+  IUseFilterByDateAtom,
+  useDateRange,
+} from '~/modules/home/hooks/useDateRange';
 
 export type SelectDateBottomShetTypes = 'start' | 'end';
 export type OnStartDateChange = (startDate: DateData) => void;
 export type OnEndDateChange = (endDate: DateData) => void;
 
-export const SelectDateBottomSheet = () => {
+export const SelectDateBottomSheet = ({ dateAtom }: IUseFilterByDateAtom) => {
   const {
     bottomSheetOpenType,
     filterDateRange,
     onStartDateChange,
     onEndDateChange,
-  } = useFilterByDate();
+  } = useDateRange({ dateAtom });
   const theme = useTheme();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['15%', '65%'], []);

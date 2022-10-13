@@ -1,39 +1,52 @@
-import { useAtom } from 'jotai';
+import { Atom, useAtom, WritableAtom } from 'jotai';
+import { useCallback, useState } from 'react';
 import { DateData } from 'react-native-calendars';
 import {
   OnEndDateChange,
   OnStartDateChange,
 } from '~/modules/home/components/SelectDateBottomSheet';
 import {
-  agendaDatesFilterAtom,
   bottomSheetOpenTypeAtom,
+  DateAtomFunction,
+  dateAtomInitialState,
+  IDateAtom,
 } from '~/modules/home/state/atoms/agendaFilterAtoms';
 import { padDatePart } from '~/modules/home/utils/formatDateObject';
 
-export const useFilterByDate = () => {
-  const [filterDateRange, setFilterDateRange] = useAtom(agendaDatesFilterAtom);
+export interface IUseFilterByDateAtom {
+  dateAtom?: DateAtomFunction;
+}
+
+export const useDateRange = ({ dateAtom }: IUseFilterByDateAtom) => {
+  const [filterDateRange, setFilterDateRange] = dateAtom
+    ? useAtom(dateAtom)
+    : useState<IDateAtom>(dateAtomInitialState);
+
   const [bottomSheetOpenType, setBottomSheetOpenType] = useAtom(
     bottomSheetOpenTypeAtom,
   );
 
   const onStartDateChange: OnStartDateChange = (startDate) => {
+    const start = {
+      value: startDate.dateString,
+      label: formatDate(startDate),
+    };
+
     setFilterDateRange((prev) => ({
-      start: {
-        value: startDate.dateString,
-        label: formatDate(startDate),
-      },
+      start,
       end: prev?.end,
     }));
     setBottomSheetOpenType('end');
   };
 
   const onEndDateChange: OnEndDateChange = (endDate) => {
+    const end = {
+      value: endDate.dateString,
+      label: formatDate(endDate),
+    };
     setFilterDateRange((prev) => ({
       start: prev?.start,
-      end: {
-        value: endDate.dateString,
-        label: formatDate(endDate),
-      },
+      end,
     }));
     setBottomSheetOpenType('start');
   };

@@ -4,7 +4,7 @@ import { FlatList, ScrollView } from 'react-native';
 import styled from 'styled-components/native';
 import { Acordion } from '~/modules/home/components/Acordion/Acordion';
 import { ScheduleList } from '~/modules/home/components/ScheduleList/ScheduleList';
-import { ISchedulesListItem } from '~/modules/schedule/types/appointments';
+import { ISchedulesListItem } from '~/modules/appointments/types/appointments';
 
 interface ISchedulesListWithAccordionProps {
   scheduleIndex?: number | null;

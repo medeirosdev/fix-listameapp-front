@@ -12,6 +12,7 @@ import { GradientContainerView } from '~/app/components/GradientContainerView';
 import { Typography } from '~/app/components/Typography';
 import { ThemeTypographyGroups } from '~/app/theme/typography';
 import { getUserNames } from '~/app/utils/format/getUserNames';
+import defaultAgendaAvatar from '~/app/assets/agenda-default.png';
 
 type AvatarVariants = 'smallWhite' | 'smallBlue' | 'medium' | 'large';
 

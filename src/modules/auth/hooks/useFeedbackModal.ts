@@ -16,7 +16,7 @@ export const useFeedbackModal = (
   const [isVisible, setIsVisible] = useState(false);
 
   const closeModal = useCallback(() => {
-    setIsVisible((prev) => !prev);
+    setIsVisible(false);
     params?.onClose?.();
   }, []);
 

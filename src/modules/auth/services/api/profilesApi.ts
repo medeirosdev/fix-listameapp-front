@@ -27,7 +27,9 @@ const update = async (params: UserProfilesApiUpdateParams): Promise<IUser> => {
   return data;
 };
 
-const uploadAvatar: IUploadAvatarRequest<IUser> = async (imagePickerData) => {
+const uploadAvatar: IUploadAvatarRequest<IUser> = async ({
+  imagePickerData,
+}) => {
   const endpoint = BASE_URL.concat('/avatar');
   const formData = new FormData();
 

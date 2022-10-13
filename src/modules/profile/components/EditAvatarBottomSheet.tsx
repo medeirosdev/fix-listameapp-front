@@ -1,44 +1,40 @@
-import React, { FC, useMemo, useRef } from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import React, { useMemo, useRef } from 'react';
+import { StyleSheet } from 'react-native';
 import BottomSheet from '@gorhom/bottom-sheet';
 import styled, { useTheme } from 'styled-components/native';
 import { Typography } from '~/app/components/Typography';
 import { Row } from '~/app/components/Row';
 import { Icon } from '~/app/components/Icon';
 import { Button } from '~/app/components/Button';
-import { profilesApi } from '~/modules/auth/services/api/profilesApi';
-import { useMutation } from '@tanstack/react-query';
+import {
+  MutateFunction,
+  UseMutateFunction,
+  useMutation,
+} from '@tanstack/react-query';
 import { useAppDispatch } from '~/app/hooks/useAppDispatch';
 import { loadUserProfilesThunk } from '~/modules/auth/state/thunks/userThunks';
+import { IUser } from '~/modules/auth/types/user';
+import { IAgenda } from '~/modules/schedule/types/agendas';
 
-interface IEditProfileBottomSheet {
+interface IEditAvatarBottomSheet<T extends IUser | IAgenda> {
   onClose?: (...args: unknown[]) => void;
   choosePhotoOnGalery: () => void;
-  isAvatarLoading?: boolean;
+  isLoading?: boolean;
   setPhoto: (photo: string) => void;
   takePhotoFromCamera?: () => void;
+  deleteAvatar: () => void;
 }
 
-export const EditProfileBottomSheet: FC<IEditProfileBottomSheet> = ({
+export const EditAvatarBottomSheet = <T extends IUser | IAgenda>({
   onClose,
-  setPhoto,
-  isAvatarLoading,
+  isLoading,
   choosePhotoOnGalery,
   takePhotoFromCamera,
-}) => {
-  const dispatch = useAppDispatch();
+  deleteAvatar,
+}: IEditAvatarBottomSheet<T>) => {
   const theme = useTheme();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['50%', '65%'], []);
-  const { mutate: deleteAvatar, isLoading } = useMutation(
-    profilesApi.deleteAvatar,
-    {
-      onSuccess: async (user) => {
-        setPhoto(user?.avatar_url || '');
-        await dispatch(loadUserProfilesThunk());
-      },
-    },
-  );
 
   const styles = useMemo(() => {
     return StyleSheet.create({
@@ -63,7 +59,7 @@ export const EditProfileBottomSheet: FC<IEditProfileBottomSheet> = ({
       style={styles.container}
       backgroundStyle={styles.background}>
       <ContentContainerView>
-        {isLoading || isAvatarLoading ? (
+        {isLoading ? (
           <>
             <Skeleton />
             <Skeleton />

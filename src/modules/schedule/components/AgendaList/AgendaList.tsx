@@ -2,10 +2,6 @@ import React from 'react';
 import { SafeAreaView, FlatList } from 'react-native';
 import styled from 'styled-components/native';
 import { Typography } from '~/app/components/Typography';
-import {
-  IUseAgendasListParams,
-  useAgendasList,
-} from '~/modules/home/hooks/useAgendasList';
 import { IAgenda } from '~/modules/schedule/types/agendas';
 
 import { ListItem } from './anathomy/ListItem';
@@ -17,7 +13,10 @@ export interface IAgendaListProps {
 
 export const AgendaList = ({ agendas, title }: IAgendaListProps) => {
   return (
-    <SafeAreaView>
+    <SafeAreaView
+      style={{
+        flex: 1,
+      }}>
       {Boolean(title) && <AgendaListTitle>{title}</AgendaListTitle>}
       <FlatList
         data={agendas}

@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { FlatList } from 'react-native';
 import { isFilteringAtom } from '~/modules/home/state/atoms/agendaFilterAtoms';
 import { selectedDateAtom } from '~/modules/home/state/atoms/schedulesCalendarAtoms';
-import { ISchedulesListItem } from '~/modules/schedule/types/appointments';
+import { ISchedulesListItem } from '~/modules/appointments/types/appointments';
 
 interface IUseCalendarSelectionParams {
   list: ISchedulesListItem[] | undefined;

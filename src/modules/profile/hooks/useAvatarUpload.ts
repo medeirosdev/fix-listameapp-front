@@ -8,23 +8,37 @@ import { loadUserProfilesThunk } from '~/modules/auth/state/thunks/userThunks';
 import { useAppDispatch } from '~/app/hooks/useAppDispatch';
 
 interface IUseAvatarUploadProps<T> {
-  uploadApiCallback?: IUploadAvatarRequest<T>;
+  agendaId?: IAgenda['id'];
+  uploadAvatarRequest: IUploadAvatarRequest<T>;
+  deleteAvatarRequest: (id?: IUser['id'] | IAgenda['id']) => Promise<T>;
 }
 
-export const useAvatarUpload = <T = IUser | IAgenda>({
-  uploadApiCallback,
+export const useAvatarUpload = <T extends IUser | IAgenda>({
+  uploadAvatarRequest,
+  deleteAvatarRequest,
+  agendaId,
 }: IUseAvatarUploadProps<T>) => {
   const dispatch = useAppDispatch();
   const [photo, setPhoto] = useState<string>('');
-  const { mutate: uploadPhoto, isLoading } = useMutation({
-    mutationFn: uploadApiCallback,
-    onSuccess: handleSuccessUploadedPhoto,
-  });
+  const { mutate: uploadPhoto, isLoading: isAvatarLoading } = useMutation(
+    uploadAvatarRequest,
+    {
+      onSuccess: handleSuccessUploadedPhoto,
+    },
+  );
+
+  const { mutate: triggerAvatarDeletion, isLoading: isDeleteLoading } =
+    useMutation(deleteAvatarRequest, {
+      onSuccess: async (entity) => {
+        setPhoto(entity?.avatar_url || '');
+        await dispatch(loadUserProfilesThunk());
+      },
+    });
 
   const choosePhotoOnGalery = async () => {
     launchImageLibrary({ mediaType: 'photo' }, (response) => {
       if (response && !response.errorCode) {
-        uploadPhoto(response);
+        uploadPhoto({ imagePickerData: response, id: agendaId });
       }
     });
   };
@@ -32,7 +46,7 @@ export const useAvatarUpload = <T = IUser | IAgenda>({
   const takePhotoFromCamera = async () => {
     launchCamera({ mediaType: 'photo' }, (response) => {
       if (response) {
-        uploadPhoto(response);
+        uploadPhoto({ imagePickerData: response, id: agendaId });
       }
     });
   };
@@ -42,11 +56,17 @@ export const useAvatarUpload = <T = IUser | IAgenda>({
     await dispatch(loadUserProfilesThunk());
   }
 
+  const deleteAvatar = () => {
+    triggerAvatarDeletion(agendaId);
+  };
+
   return {
     photo,
-    isLoading,
+    isAvatarLoading,
     choosePhotoOnGalery,
     takePhotoFromCamera,
     setPhoto,
+    deleteAvatar,
+    isDeleteLoading,
   };
 };

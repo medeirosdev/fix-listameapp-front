@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import { Shadow } from '~/app/components/Shadow';
 import { Typography } from '~/app/components/Typography';
@@ -9,23 +10,27 @@ export interface IScheduleListItemProps {
   description?: string;
   hour: string;
   dayWithMonth: string;
+  onPress?: () => void;
 }
 
 export const ListItem: FC<IScheduleListItemProps> = (props) => {
-  const { hour, dayWithMonth, title, subtitle, description } = props;
+  const { hour, dayWithMonth, title, subtitle, description, onPress } = props;
+
   return (
-    <ListItemShadowContainer dp="dp01">
-      <ListItemDate>
-        <ListItemDateHour>{hour}</ListItemDateHour>
-        <ListItemDateDivider />
-        <ListItemDateDayMonth>{dayWithMonth}</ListItemDateDayMonth>
-      </ListItemDate>
-      <ListItemDetais>
-        <Title>{title}</Title>
-        <Subtitle>{subtitle}</Subtitle>
-        <Description>{description}</Description>
-      </ListItemDetais>
-    </ListItemShadowContainer>
+    <TouchableOpacity activeOpacity={0.7} onPress={() => onPress?.()}>
+      <ListItemShadowContainer dp="dp01">
+        <ListItemDate>
+          <ListItemDateHour>{hour}</ListItemDateHour>
+          <ListItemDateDivider />
+          <ListItemDateDayMonth>{dayWithMonth}</ListItemDateDayMonth>
+        </ListItemDate>
+        <ListItemDetais>
+          <Title>{title}</Title>
+          <Subtitle>{subtitle}</Subtitle>
+          <Description>{description}</Description>
+        </ListItemDetais>
+      </ListItemShadowContainer>
+    </TouchableOpacity>
   );
 };
 
