@@ -1,6 +1,6 @@
 import React, { FC, useMemo, useRef } from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import BottomSheet from '@gorhom/bottom-sheet';
+import { StyleSheet } from 'react-native';
+import BottomSheet from 'reanimated-bottom-sheet';
 import styled, { useTheme } from 'styled-components/native';
 import { Typography } from '~/app/components/Typography';
 import { Row } from '~/app/components/Row';
@@ -18,19 +18,14 @@ export const AppointmentNotificationBottomSheet: FC<
 > = ({ onClose, options = [], onSelect }) => {
   const theme = useTheme();
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => [options.length ? '45%' : '20%', '65%'], []);
+  const snapPoints = useMemo(() => [350, 400, 0], []);
 
   const styles = useMemo(() => {
     return StyleSheet.create({
       container: {
-        flex: 2,
-        ...theme.shadows.dp24,
-        shadowColor: '#000',
         padding: 24,
-      },
-      background: {
-        borderRadius: theme.radii.xxl,
-        elevation: theme.elevations.dp24,
+        height: '100%',
+        backgroundColor: theme.colors.neutral.white
       },
     });
   }, []);
@@ -38,11 +33,11 @@ export const AppointmentNotificationBottomSheet: FC<
   return (
     <BottomSheet
       ref={bottomSheetRef}
-      index={0}
       snapPoints={snapPoints}
-      style={styles.container}
-      backgroundStyle={styles.background}>
-      <ContentContainerView
+      borderRadius={theme.radii.xxl}
+      renderContent={() => {
+      return <ContentContainerView
+        style={styles.container}
         contentContainerStyle={{
           paddingVertical: 16,
           display: 'flex',
@@ -62,13 +57,13 @@ export const AppointmentNotificationBottomSheet: FC<
           <OptionText>Nenhum opção disponível...</OptionText>
         )}
       </ContentContainerView>
-      <CloseIcon onPress={onClose} />
-    </BottomSheet>
+      }}
+      renderHeader={() => <CloseIcon onPress={onClose} />}
+      />
   );
 };
 
 const ContentContainerView = styled.ScrollView`
-  flex: 0.5;
 `;
 
 const Option = styled(Row)`

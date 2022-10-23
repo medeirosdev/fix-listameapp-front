@@ -89,6 +89,7 @@ export const NewSchedulesScreenForm: FC = () => {
 
 const ForgotPasswordFormFooter = styled(Row)`
   justify-content: space-between;
+  margin-bottom: ${Platform.OS === 'android' ? '16px' : '0px'};
 `;
 
 const FooterButtonWrapper = styled(Row)`

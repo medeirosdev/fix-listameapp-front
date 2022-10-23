@@ -1,18 +1,11 @@
 import React, { useMemo, useRef } from 'react';
 import { StyleSheet } from 'react-native';
-import BottomSheet from '@gorhom/bottom-sheet';
+import BottomSheet from 'reanimated-bottom-sheet';
 import styled, { useTheme } from 'styled-components/native';
 import { Typography } from '~/app/components/Typography';
 import { Row } from '~/app/components/Row';
 import { Icon } from '~/app/components/Icon';
 import { Button } from '~/app/components/Button';
-import {
-  MutateFunction,
-  UseMutateFunction,
-  useMutation,
-} from '@tanstack/react-query';
-import { useAppDispatch } from '~/app/hooks/useAppDispatch';
-import { loadUserProfilesThunk } from '~/modules/auth/state/thunks/userThunks';
 import { IUser } from '~/modules/auth/types/user';
 import { IAgenda } from '~/modules/schedule/types/agendas';
 
@@ -30,23 +23,20 @@ export const EditAvatarBottomSheet = <T extends IUser | IAgenda>({
   isLoading,
   choosePhotoOnGalery,
   takePhotoFromCamera,
-  deleteAvatar,
+  deleteAvatar
 }: IEditAvatarBottomSheet<T>) => {
   const theme = useTheme();
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ['50%', '65%'], []);
+  const snapPoints = useMemo(() => [300, 450, 0], []);
 
   const styles = useMemo(() => {
     return StyleSheet.create({
       container: {
-        flex: 2,
         ...theme.shadows.dp24,
         shadowColor: '#000',
         padding: 24,
-      },
-      background: {
-        borderRadius: theme.radii.xxl,
-        elevation: theme.elevations.dp24,
+        height: '100%',
+        backgroundColor: theme.colors.neutral.white
       },
     });
   }, []);
@@ -54,11 +44,10 @@ export const EditAvatarBottomSheet = <T extends IUser | IAgenda>({
   return (
     <BottomSheet
       ref={bottomSheetRef}
-      index={0}
+      borderRadius={theme.radii.xxl}
       snapPoints={snapPoints}
-      style={styles.container}
-      backgroundStyle={styles.background}>
-      <ContentContainerView>
+      renderContent={() => (
+        <ContentContainerView style={styles.container}>
         {isLoading ? (
           <>
             <Skeleton />
@@ -94,7 +83,8 @@ export const EditAvatarBottomSheet = <T extends IUser | IAgenda>({
           </>
         )}
       </ContentContainerView>
-    </BottomSheet>
+      )}
+      />
   );
 };
 

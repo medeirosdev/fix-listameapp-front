@@ -10,6 +10,7 @@ import { IInputProps } from './types';
 import * as Anathomy from './anathomy';
 import {
   NativeSyntheticEvent,
+  Platform,
   TextInputFocusEventData,
   TextInputProps,
 } from 'react-native';
@@ -111,8 +112,8 @@ export const Input: FC<IInputProps> = forwardRef((props, ref) => {
           <RNPickerSelect
             style={{
               viewContainer: {
-                marginLeft: 16,
-                marginBottom: 6,
+                marginLeft: Platform.OS === 'android' ? 0 : 16,
+                marginBottom:  Platform.OS === 'android' ? 0:  6,
               },
               inputAndroid: {
                 color: theme.colors.gray[600],

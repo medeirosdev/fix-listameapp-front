@@ -255,13 +255,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: FAB_MARGIN,
     right: FAB_MARGIN,
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.27,
-    shadowRadius: 4.65,
-    elevation: 6
   },
   fabButtonStyles: {
     alignItems: 'center',

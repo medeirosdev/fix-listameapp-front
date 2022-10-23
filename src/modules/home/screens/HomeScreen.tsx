@@ -127,7 +127,6 @@ export const HomeScreen: FC = () => {
         )}
       </LayoutContainer>
       <TouchableWithoutFeedback>
-        <Shadow dp="dp06">
           <FloatingActionButton>
             <FloatingActionButtonItem
               onPress={() => navigation.navigate('NewSchedule')}
@@ -140,7 +139,6 @@ export const HomeScreen: FC = () => {
               icon="schedule"
             />
           </FloatingActionButton>
-        </Shadow>
       </TouchableWithoutFeedback>
     </HomeScreenPageContainer>
   );

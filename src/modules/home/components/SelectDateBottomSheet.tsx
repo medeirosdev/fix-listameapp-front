@@ -1,6 +1,6 @@
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { StyleSheet } from 'react-native';
-import BottomSheet from '@gorhom/bottom-sheet';
+import BottomSheet from 'reanimated-bottom-sheet';
 import styled, { useTheme } from 'styled-components/native';
 import { Typography } from '~/app/components/Typography';
 import { SchedulesCalendar } from '~/modules/home/components/SchedulesCalendar/SchedulesCalendar';
@@ -23,31 +23,28 @@ export const SelectDateBottomSheet = ({ dateAtom }: IUseFilterByDateAtom) => {
   } = useDateRange({ dateAtom });
   const theme = useTheme();
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ['15%', '65%'], []);
+  const snapPoints = useMemo(() => [400, 300, 0], []);
 
   const styles = useMemo(() => {
     return StyleSheet.create({
       container: {
-        flex: 2,
         ...theme.shadows.dp24,
         shadowColor: '#000',
         elevation: theme.elevations.dp24,
-        padding: 24,
-      },
-      background: {
-        borderRadius: theme.radii.xxl,
+        backgroundColor: theme.colors.neutral.white,
       },
     });
   }, []);
 
   return (
     <BottomSheet
+      enabledHeaderGestureInteraction
+      enabledContentGestureInteraction={false}
       ref={bottomSheetRef}
-      index={0}
+      borderRadius={theme.radii.xxl}
       snapPoints={snapPoints}
-      style={styles.container}
-      backgroundStyle={styles.background}>
-      <ContentContainerView>
+      renderContent={() => {
+      return <ContentContainerView style={styles.container}>
         <ContentTitle fontGroup="bodyLargeMedium">
           Selecione a data{' '}
           {bottomSheetOpenType === 'start' ? 'inicial' : 'final'}
@@ -64,13 +61,11 @@ export const SelectDateBottomSheet = ({ dateAtom }: IUseFilterByDateAtom) => {
           }
         />
       </ContentContainerView>
-    </BottomSheet>
+      }} />
   );
 };
 
-const ContentContainerView = styled.View`
-  flex: 2;
-`;
+const ContentContainerView = styled.ScrollView``;
 
 const ContentTitle = styled(Typography)`
   margin: 16px 0px;

@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import React, { FC, useEffect, useState } from 'react';
-import { ActivityIndicator, ScrollView } from 'react-native';
+import { ActivityIndicator, Platform, ScrollView } from 'react-native';
 import { useTheme } from 'styled-components';
 import styled from 'styled-components/native';
 import { Button } from '~/app/components/Button';
@@ -259,6 +259,7 @@ export const Description = styled(Typography).attrs(({ theme }) => ({
 
 const AppointmentFooter = styled(Row)`
   justify-content: space-between;
+  margin-bottom: ${Platform.OS === 'android' ? '16px' : '0px'};
 `;
 
 const AppointmentFooterButtonWrapper = styled(Row)`

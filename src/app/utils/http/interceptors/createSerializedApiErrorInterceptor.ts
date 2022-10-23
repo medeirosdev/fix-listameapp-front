@@ -27,7 +27,8 @@ function createSerializedApiError(
   if (isAxiosError(error)) {
     const response = error.response;
     const responseError = response?.data;
-
+    
+    console.info(requestedUrl)
     return {
       status: response?.status ?? 500,
       requestedUrl,
@@ -37,6 +38,7 @@ function createSerializedApiError(
     };
   }
 
+  
   return {
     status: 500,
     message: String(error),
