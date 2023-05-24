@@ -4,7 +4,7 @@ import { addAuthorizationHeaderInterceptor } from '~/app/utils/http/interceptors
 import { createSerializedApiErrorInterceptor } from '~/app/utils/http/interceptors/createSerializedApiErrorInterceptor';
 
 export const api = Axios.create({
-  baseURL: env.BASE_API_URL,
+  baseURL: 'http://localhost:3333',
 });
 
 api.interceptors.request.use(addAuthorizationHeaderInterceptor);
